@@ -35,7 +35,6 @@ class AdminsController extends Controller
     		'password' => request('password')
     	]);
 
-    	alertify()->success('Updated record successfully');
     	session()->flash('success', 'You have Successfully Registered'); 
 
     	return redirect('/');
