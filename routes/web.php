@@ -15,6 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::get('/admin/register', 'AdminsController@register');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/admin/create', 'AdminsController@create');

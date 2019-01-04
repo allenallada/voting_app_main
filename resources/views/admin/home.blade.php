@@ -3,14 +3,14 @@
 
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="/css/login.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/css/login.css"> -->
 
 @endpush
 
 @section('content')
 
 
-    <div class="container">
+    <!-- <div class="container">
         <h1>Voting App</h1>
         <br>
         <br>
@@ -39,12 +39,12 @@
             <button type="submit" class="btn btn-primary">Submit</button>
             <a type="submit" class="btn btn-success" href="/admin/register">Register</a>
         </form>
-    </div>
+    </div> -->
 
 @endsection
 
 @push('scripts')
 
-    <script type="text/javascript" src="/js/login.js"></script>
+    <!-- <script type="text/javascript" src="/js/login.js"></script> -->
     
 @endpush
