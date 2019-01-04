@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/admin/register', 'AdminsController@register');
+
+Route::post('/admin/create', 'AdminsController@create');
