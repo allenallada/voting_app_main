@@ -7,9 +7,27 @@
 
 @endpush
 
-@section('content')
-    <h1>HOME PAGE</h1>
+@section('navbar')
+        <div class="container-fluid">
+            <nav class="nav navbar-nav navbar-inverse">
+            <li class="active">
+                <a href="/admin">Home</a>
+            </li>
+            <li>
+                <a href="/admin/candidates">Candidates</a></li>
+            <li>
+                <a href="/admin/voters">Voters</a>
+            </li> 
+        </nav>
+        </div>
+    
+@endsection
 
+@section('content')
+   
+    <div class="container">
+        <h1>HOME PAGE</h1>
+    </div>
     <!-- <div class="container">
         <h1>Voting App</h1>
         <br>

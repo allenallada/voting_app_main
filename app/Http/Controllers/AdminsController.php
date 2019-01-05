@@ -51,7 +51,7 @@ class AdminsController extends Controller
     		return back();
 		}
 		session(['user' => $user]);
-		
+
 		return redirect('/admin');
     }
 
