@@ -59,4 +59,11 @@ class AdminsController extends Controller
     {
     	return view('admin.home');
     }
+
+    public function logout()
+    {
+    	session()->flush();
+    	session()->flash('success', 'Logged out Successfully');
+    	return redirect('/');
+    }
 }

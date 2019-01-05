@@ -8,25 +8,32 @@
 @endpush
 
 @section('navbar')
-        <div class="container-fluid">
-            <nav class="nav navbar-nav navbar-inverse">
-            <li class="active">
-                <a href="/admin">Home</a>
-            </li>
-            <li>
-                <a href="/admin/candidates">Candidates</a></li>
-            <li>
-                <a href="/admin/voters">Voters</a>
-            </li> 
-        </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/admin">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/candidates">Candidates</a></li>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/voters">Voters</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" action="/admin/logout" method="GET">
+                <button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Log Out</button>
+            </form>
         </div>
-    
+    </nav>
 @endsection
 
 @section('content')
    
     <div class="container">
-        <h1>HOME PAGE</h1>
+        <div class="jumbotron">
+            <h3>Welcome Back {{ session('user')->name}}!</h3>
+        </div>    
     </div>
     <!-- <div class="container">
         <h1>Voting App</h1>

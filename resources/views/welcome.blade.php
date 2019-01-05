@@ -41,20 +41,13 @@
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-            <a type="submit" class="btn btn-success" href="/admin/register">Register</a>
+            <a  class="btn btn-success" type="submit"  href="/admin/register">Register</a>
         </form>
-
         <br>
-
-
         @if (Session::get('error'))
-
             <div class="alert alert-danger" role="alert">
-
               {{Session::get('error')}}
-
             </div>
-        
         @endif
     </div>
 
