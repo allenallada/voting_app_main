@@ -14,7 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/admin', 'AdminsController@home');
 
 Route::get('/admin/register', 'AdminsController@register');
+
+Route::post('/admin/login', 'AdminsController@login');
 
 Route::post('/admin/create', 'AdminsController@create');

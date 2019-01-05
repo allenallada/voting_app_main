@@ -8,7 +8,7 @@
 @endpush
 
 @section('content')
-
+    <h1>HOME PAGE</h1>
 
     <!-- <div class="container">
         <h1>Voting App</h1>

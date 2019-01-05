@@ -14,23 +14,27 @@
         <h1>Voting App</h1>
         <br>
         <br>
-        <h2>Login</h2>
-        <br>
 
         @if (Session::get('success'))
 
-        <div class="alert alert-success" role="alert">
+            <div class="alert alert-success" role="alert">
 
-          {{Session::get('success')}}
+              {{Session::get('success')}}
 
-        </div>
+            </div>
         
         @endif
 
-        <form>
+
+        <h2>Login</h2>
+        <br>
+
+        
+
+        <form  action="/admin/login" method="POST">
             <div class="form-group">
-                <label for="name">Name</label>
-                <input type="name" class="form-control" id="name" name="name" aria-describedby="emailHelp" placeholder="Enter Name" required>
+                <label for="username">Username</label>
+                <input type="username" class="form-control" id="username" name="username" aria-describedby="emailHelp" placeholder="Enter Name" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
@@ -39,6 +43,19 @@
             <button type="submit" class="btn btn-primary">Submit</button>
             <a type="submit" class="btn btn-success" href="/admin/register">Register</a>
         </form>
+
+        <br>
+
+
+        @if (Session::get('error'))
+
+            <div class="alert alert-danger" role="alert">
+
+              {{Session::get('error')}}
+
+            </div>
+        
+        @endif
     </div>
 
 @endsection
