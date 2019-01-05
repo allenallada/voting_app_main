@@ -16,12 +16,12 @@ Route::get('/', function () {
 })->middleware('has_session');
 
 Route::post('/admin/login', 'AdminsController@login');
+Route::get('/admin/register', 'AdminsController@register');
+Route::post('/admin/create', 'AdminsController@create');
 
 Route::group(['middleware' => ['is_logged_in']], function () {
     Route::get('/admin', 'AdminsController@home');
 	Route::get('/admin/logout', 'AdminsController@logout');
-	Route::get('/admin/register', 'AdminsController@register');
-	Route::post('/admin/create', 'AdminsController@create');
 	Route::get('/admin/candidates', 'CandidateController@index');
 });
 
