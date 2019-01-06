@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCandidatesTable extends Migration
+class CreatePartylistsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateCandidatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('candidates', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('student_id')->unique();
+        Schema::create('partylists', function (Blueprint $table) {
+            $table->increments('id')->onDelete('cascade');
             $table->string('name');
-            $table->unsignedInteger('partylist_id')->default(0);
-            $table->string('section');
-            $table->string('position');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateCandidatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('candidates');
+        Schema::dropIfExists('partylists');
     }
 }

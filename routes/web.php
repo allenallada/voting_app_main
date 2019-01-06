@@ -23,5 +23,9 @@ Route::group(['middleware' => ['is_logged_in']], function () {
     Route::get('/admin', 'AdminsController@home');
 	Route::get('/admin/logout', 'AdminsController@logout');
 	Route::get('/admin/candidates', 'CandidateController@index');
+	Route::delete('/admin/candidates/{candidate}', 'CandidateController@delete');
+	Route::post('/admin/candidates/store', 'CandidateController@store');
+	Route::post('/admin/partylist/store', 'PartylistController@store');
+	Route::delete('/admin/partylist/{partylist}', 'PartylistController@delete');
 });
 
