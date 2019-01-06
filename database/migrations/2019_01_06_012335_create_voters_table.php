@@ -18,7 +18,7 @@ class CreateVotersTable extends Migration
             $table->string('qr_code')->unique();
             $table->string('name');
             $table->string('qr_code_id');
-            $table->string('qr_code_student_id')->unique();
+            $table->string('qr_code_student_id');
             $table->boolean('has_voted')->default(false);
             $table->string('mac_address')->default('N/A');
             $table->timestamps();
