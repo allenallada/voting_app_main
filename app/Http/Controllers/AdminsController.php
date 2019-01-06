@@ -66,4 +66,30 @@ class AdminsController extends Controller
     	session()->flash('success', 'Logged out Successfully');
     	return redirect('/');
     }
+
+    public function apiLogin()
+    {
+    	$user = Admin::where('username', request('username'))->first();
+    	if($user === null) {
+    		return [
+    			'error' => [
+    				'message' => 'no user found'
+    			]
+    		];
+    	}
+
+    	if(!Hash::check(request('password'), $user->password)) {
+    		return [
+    			'error' => [
+					'message' => 'incorrect password'
+				]
+			];
+		}
+
+		return [
+			'success' => [
+				'message' => 'Logged in!'
+			]
+		];
+    }
 }

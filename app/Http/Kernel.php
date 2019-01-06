@@ -59,5 +59,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'has_session' => \App\Http\Middleware\CheckUserSession::class,
         'is_logged_in' => \App\Http\Middleware\CheckIfLoggedIn::class,
+        'app_key_verify' => \App\Http\Middleware\AppKeyVerify::class,
     ];
 }

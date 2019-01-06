@@ -124,7 +124,7 @@
                             <td>
                                 <form action="/admin/partylist/{{ $partylist->id }}" method="POST">
                                     {{method_field('DELETE')}}
-                                    <button class="btn btn-danger" type="submit">Delete</button>
+                                    <!-- <button class="btn btn-danger" type="submit">Delete</button> -->
                                 </form>
                             </td>
                         </tr>

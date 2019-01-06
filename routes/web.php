@@ -27,5 +27,23 @@ Route::group(['middleware' => ['is_logged_in']], function () {
 	Route::post('/admin/candidates/store', 'CandidateController@store');
 	Route::post('/admin/partylist/store', 'PartylistController@store');
 	Route::delete('/admin/partylist/{partylist}', 'PartylistController@delete');
+	Route::get('/admin/voters', 'VotersController@index');
 });
+
+Route::group(['middleware' => ['app_key_verify']], function () {
+	Route::post('/api/local/register', 'VotersController@store');
+	Route::post('/api/local/login', 'AdminsController@apiLogin');
+	Route::post('/api/mobile/login', 'VotersController@login');
+	Route::post('/api/mobile/vote', 'VotersController@vote');
+ //    Route::get('/admin', 'AdminsController@home');
+	// Route::get('/admin/logout', 'AdminsController@logout');
+	// Route::get('/admin/candidates', 'CandidateController@index');
+	// Route::delete('/admin/candidates/{candidate}', 'CandidateController@delete');
+	// Route::post('/admin/candidates/store', 'CandidateController@store');
+	// Route::post('/admin/partylist/store', 'PartylistController@store');
+	// Route::delete('/admin/partylist/{partylist}', 'PartylistController@delete');
+	// Route::get('/admin/voters', 'VotersController@index');
+});
+
+// app_key_verify
 
