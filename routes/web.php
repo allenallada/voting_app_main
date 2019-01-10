@@ -35,7 +35,7 @@ Route::group(['middleware' => ['app_key_verify']], function () {
 	Route::post('/api/local/login', 'AdminsController@apiLogin');
 	Route::post('/api/mobile/login', 'VotersController@login');
 	Route::post('/api/mobile/vote', 'VotersController@vote');
- //    Route::get('/admin', 'AdminsController@home');
+ 	// Route::get('/admin', 'AdminsController@home');
 	// Route::get('/admin/logout', 'AdminsController@logout');
 	// Route::get('/admin/candidates', 'CandidateController@index');
 	// Route::delete('/admin/candidates/{candidate}', 'CandidateController@delete');

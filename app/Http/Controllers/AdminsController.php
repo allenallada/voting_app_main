@@ -69,27 +69,40 @@ class AdminsController extends Controller
 
     public function apiLogin()
     {
-    	$user = Admin::where('username', request('username'))->first();
-    	if($user === null) {
+    	$validator = Validator::make(request()->all(), [
+            'qr_code' => 'required',
+        ]);
+
+    	if ($validator->fails()) {
+            return [
+            	'error' => [
+            		'message' => 'invalid parameters'
+            	]
+            ];
+        }
+
+        $qrCode = request('qr_code');
+
+        $fragments = explode(' ', $qrCode);
+        $result = array_filter($fragments);           
+
+       	$qrId = array_pop($result);
+       	$qrStudentId = array_pop($result);
+       	$name = implode(' ', $result);
+    	$user = Admin::where('student_id', $qrStudentId)->first();
+    	dd($user);
+    	if($user === null){
     		return [
-    			'error' => [
-    				'message' => 'no user found'
-    			]
-    		];
+            	'error' => [
+            		'message' => 'no user found!'
+            	]
+            ];
     	}
 
-    	if(!Hash::check(request('password'), $user->password)) {
-    		return [
-    			'error' => [
-					'message' => 'incorrect password'
-				]
-			];
-		}
-
-		return [
-			'success' => [
-				'message' => 'Logged in!'
-			]
-		];
+    	return [
+	    		'success' => [
+	    			'message' => 'successfully logged in!'
+	    		]
+	    	];
     }
 }
