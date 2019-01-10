@@ -18,7 +18,8 @@ class VotersController extends Controller
     public function store()
     {
     	$validator = Validator::make(request()->all(), [
-            'qr_code' => 'required|string|max:255|unique:voters',
+            // 'qr_code' => 'required|string|max:255|unique:voters',
+            'qr_code' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -28,6 +29,17 @@ class VotersController extends Controller
             	]
             ];
         }
+
+        $voter = Voter::where('qr_code', request('qr_code'))->first();
+
+        if($voter !== null) {
+        	return [
+            	'error' => [
+            		'message' => 'already exists!'
+            	]
+            ];
+        }
+
         $qrCode = request('qr_code');
 
         $fragments = explode(' ', $qrCode);
@@ -37,7 +49,25 @@ class VotersController extends Controller
        	$qrStudentId = array_pop($result);
        	$name = implode(' ', $result);
 
-        // dd($qrCode, $qrId, $qrStudentId,$name);
+       	$parameters = [
+       		'id_no' => $qrId,
+       		'student_id' => $qrStudentId,
+       		'name' => $name,
+       	];
+
+       	$validator = Validator::make($parameters, [
+            'id_no' => 'required|digits:4',
+            'student_id' => 'required|string|size:11',
+            'name' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+            	'error' => [
+            		'message' => 'invalid parameters'
+            	]
+            ];
+        }
 
         Voter::create([
     		'qr_code' => $qrCode,
