@@ -90,7 +90,7 @@ class AdminsController extends Controller
        	$qrStudentId = array_pop($result);
        	$name = implode(' ', $result);
     	$user = Admin::where('student_id', $qrStudentId)->first();
-    	dd($user);
+
     	if($user === null){
     		return [
             	'error' => [
