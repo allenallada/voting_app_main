@@ -16,6 +16,7 @@ class CreateCandidatesTable extends Migration
         Schema::create('candidates', function (Blueprint $table) {
             $table->increments('id');
             $table->string('student_id')->unique();
+            $table->string('image_name');
             $table->string('name');
             $table->unsignedInteger('partylist_id')->default(0);
             $table->string('section');

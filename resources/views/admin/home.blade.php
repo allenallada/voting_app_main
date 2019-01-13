@@ -43,6 +43,8 @@
                 <button class="btn btn-success" id="add_candidate" type="submit">Export Voters</button>
             </form>
         </div>
+        <br>
+        <br>
         @if ($errors->any())
             <div class="alert alert-danger" role="alert">
                 <ul>

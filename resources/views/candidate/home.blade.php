@@ -155,7 +155,7 @@
 <!-- Modal -->
 <div class="modal fade" id="addCandidateModal" tabindex="-1" role="dialog" aria-labelledby="addCandidateModal" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form action="/admin/candidates/store" method="POST">
+        <form action="/admin/candidates/store" method="POST" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="addCandidateModalLabel">Add Candidate</h5>
