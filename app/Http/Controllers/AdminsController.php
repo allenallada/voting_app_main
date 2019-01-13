@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Admin;
+use App\Candidate;
 
 class AdminsController extends Controller
 {
@@ -57,7 +58,11 @@ class AdminsController extends Controller
 
     public function home()
     {
-    	return view('admin.home');
+    	$admins = Admin::all();
+    	$PCandidates = Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get();
+    	$VCandidates = Candidate::withCount('vote')->where('position', 'Vice President')->orderBy('vote_count', 'desc')->get();
+    	$SCandidates = Candidate::withCount('vote')->where('position', 'Secretary')->orderBy('vote_count', 'desc')->get();
+    	return view('admin.home', compact('admins', 'PCandidates', 'VCandidates', 'SCandidates'));
     }
 
     public function logout()
@@ -65,6 +70,58 @@ class AdminsController extends Controller
     	session()->flush();
     	session()->flash('success', 'Logged out Successfully');
     	return redirect('/');
+    }
+
+    public function delete(Admin $admin)
+    {
+    	if(!Hash::check(request('password'), $admin->password)) {
+    		session()->flash('error', 'Incorrent Password!'); 
+    		return back();
+		}
+
+    	$admin->delete();
+
+    	session()->flash('success', 'Admin Deleted!'); 
+
+        return back();
+    }
+
+    public function update(Admin $admin)
+    {
+    	if(!Hash::check(request('password'), $admin->password)) {
+    		session()->flash('error', 'Incorrent Password!'); 
+    		return back();
+		}
+
+    	request()->validate([
+            'student_id' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'password' => 'required|string|min:6'
+        ]);
+
+        if(request('new_password') !== null){
+        	request()->validate([
+	            'new_password' => 'required|string|min:6|confirmed',
+	        ]);
+        }
+
+        $admin->student_id = request('student_id');
+        $admin->name = request('name');
+        $admin->username = request('username');
+
+        if(request('new_password') !== null){
+        	$admin->password = request('new_password');
+        }
+
+        $admin->save();
+
+        session(['user' => $admin]);
+
+        session()->flash('success', 'Information Updated!'); 
+
+        return back();
+
     }
 
     public function apiLogin()

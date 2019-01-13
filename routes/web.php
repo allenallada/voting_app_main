@@ -26,6 +26,8 @@ Route::group(['middleware' => ['is_logged_in']], function () {
 	Route::delete('/admin/candidates/{candidate}', 'CandidateController@delete');
 	Route::post('/admin/candidates/store', 'CandidateController@store');
 	Route::post('/admin/partylist/store', 'PartylistController@store');
+	Route::post('/admin/{admin}/update', 'AdminsController@update');
+	Route::post('/admin/{admin}/delete', 'AdminsController@delete');
 	Route::delete('/admin/partylist/{partylist}', 'PartylistController@delete');
 	Route::get('/admin/voters', 'VotersController@index');
 });

@@ -18,7 +18,6 @@ class VotersController extends Controller
     public function store()
     {
     	$validator = Validator::make(request()->all(), [
-            // 'qr_code' => 'required|string|max:255|unique:voters',
             'qr_code' => 'required|string|max:255',
         ]);
 

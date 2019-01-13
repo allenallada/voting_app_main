@@ -1,7 +1,7 @@
-$(document).ready(function(){
+// $(document).ready(function(){
 
-	$('#add_candidate').click(function(){
-		$('#exampleModalLabel').modal(options)
-	});
+// 	$('#add_candidate').click(function(){
+// 		$('#exampleModalLabel').modal(options)
+// 	});
 
-})
+// })
