@@ -60,6 +60,7 @@ class CandidateController extends Controller
             array_push($presidentJson, [
                 'id' => $president->id,
                 'name' => $president->name,
+                'image_name' => $president->image_name,
                 'position' => $president->position,
                 'partylist' => $president->partylist_id === 0 ? 'Independent' : Partylist::find($president->partylist_id)->first()->name,
                 'section' => $president->section
@@ -76,6 +77,7 @@ class CandidateController extends Controller
             array_push($vpresidentJson, [
                 'id' => $vpresident->id,
                 'name' => $vpresident->name,
+                'image_name' => $vpresident->image_name,
                 'position' => $vpresident->position,
                 'partylist' => $vpresident->partylist_id === 0 ? 'Independent' : Partylist::find($vpresident->partylist_id)->first()->name,
                 'section' => $vpresident->section
@@ -89,6 +91,7 @@ class CandidateController extends Controller
             array_push($secretariesJson, [
                 'id' => $secretary->id,
                 'name' => $secretary->name,
+                'image_name' => $secretary->image_name,
                 'position' => $secretary->position,
                 'partylist' => $secretary->partylist_id === 0 ? 'Independent' : Partylist::find($secretary->partylist_id)->first()->name,
                 'section' => $secretary->section
