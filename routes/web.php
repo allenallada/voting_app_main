@@ -30,6 +30,8 @@ Route::group(['middleware' => ['is_logged_in']], function () {
 	Route::post('/admin/{admin}/delete', 'AdminsController@delete');
 	Route::delete('/admin/partylist/{partylist}', 'PartylistController@delete');
 	Route::get('/admin/voters', 'VotersController@index');
+	Route::get('/admin/export/summary', 'AdminsController@exportResult');
+	Route::get('/admin/export/voter', 'AdminsController@exportVoters');
 });
 
 Route::group(['middleware' => ['app_key_verify']], function () {

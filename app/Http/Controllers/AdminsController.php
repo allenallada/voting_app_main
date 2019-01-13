@@ -65,6 +65,16 @@ class AdminsController extends Controller
     	return view('admin.home', compact('admins', 'PCandidates', 'VCandidates', 'SCandidates'));
     }
 
+    public function exportResult()
+    {
+    	return \Excel::download(new \App\Exports\SummaryExports, 'summary.xlsx');
+    }
+
+    public function exportVoters()
+    {
+    	return \Excel::download(new \App\Exports\VoterExports, 'voters.xlsx');
+    }
+
     public function logout()
     {
     	session()->flush();

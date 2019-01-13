@@ -35,6 +35,14 @@
             <button class="btn btn-primary" id="add_candidate" type="button" data-toggle="modal" data-target="#editInfo">Edit My Info</button>
             <button class="btn btn-danger" id="add_candidate" type="button" data-toggle="modal" data-target="#manage_admin">Manage Admin Accounts</button>
         </div>    
+        <div class="d-flex">
+            <form action="/admin/export/summary" method="GET" class="m-1">
+                <button class="btn btn-success" id="add_candidate" type="submit">Export Summary</button>
+            </form>
+            <form action="/admin/export/voter" method="GET" class="m-1">
+                <button class="btn btn-success" id="add_candidate" type="submit">Export Voters</button>
+            </form>
+        </div>
         @if ($errors->any())
             <div class="alert alert-danger" role="alert">
                 <ul>
@@ -80,7 +88,7 @@
                     <tbody >
                         @foreach ($PCandidates as $key => $candidate)
 
-                            <tr class="{{ $key < 3 ? 'bg-success' : '' }}">
+                            <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
                                 <th scope="row"> {{ $candidate->id }}</th>
                                 <td>{{ $candidate->student_id }}</td>
                                 <td>{{ $candidate->name }}</td>
@@ -126,7 +134,7 @@
                     </thead>
                     <tbody >
                         @foreach ($VCandidates as $key => $candidate)
-                            <tr class="{{ $key < 3 ? 'bg-success' : '' }}">
+                            <tr class="{{ $key === 0 ? 'bg-success' : '' }}">
                                 <th scope="row">{{ $candidate->id }}</th>
                                 <td>{{ $candidate->student_id }}</td>
                                 <td>{{ $candidate->name }}</td>
@@ -172,7 +180,7 @@
                     </thead>
                     <tbody >
                         @foreach ($SCandidates as $key => $candidate)
-                            <tr class="{{ $key < 3 ? 'bg-success' : '' }}">
+                            <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
                                 <th scope="row">{{ $candidate->id }}</th>
                                 <td>{{ $candidate->student_id }}</td>
                                 <td>{{ $candidate->name }}</td>
