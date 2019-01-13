@@ -8,33 +8,7 @@ use App\Candidate;
 use App\PartyList;
 
 class SummaryExports implements FromCollection, WithHeadings
-// class SummaryExports implements \Maatwebsite\Excel\Concerns\FromCollection, WithHeadings,
-{
-	// public function collection()
-	// {
-	// 	$summary = [];
-	// 	// use Exportable;
 
-	// 	// array_push($summary, 'President Candidate Summary');
-	// 	$PCandidates =  Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get();
-
-	// 	foreach ($PCandidates  as $value) {
-	// 		array_push($summary, [
-	// 			"id" => $value->id,
-	// 		     "student_id" => $value->student_id,
-	// 		     "name" => $value->name,
-	// 		     "partylist_id" => $value->partylist_id,
-	// 		     "section" => $value->section,
-	// 		     "position" => $value->position,
-	// 		     "vote_count" => $value->vote_count,
-	// 		]);
-	// 	}
-	// 	// dd($summary);
-	// 	// // $PCandidates s
-	// 	return collect([
-	// 		$summary
-	// 	]);
-	// }
 	public function collection()
     {
     	$summary = [['']];
@@ -45,7 +19,7 @@ class SummaryExports implements FromCollection, WithHeadings
 
 		foreach ($PCandidates  as $value) {
 			$partylistName = $value->partylist_id === 0 ? "Independent" : PartyList::find($value->partylist_id)->first()->name;
-			// print_r($partylistName );
+
 			array_push($summary, [
 				"id" => $value->id,
 			    "student_id" => $value->student_id,
@@ -73,7 +47,7 @@ class SummaryExports implements FromCollection, WithHeadings
 		}
 
 		array_push($summary, ['']);
-		
+
 		foreach ($SCandidates  as $value) {
 			$partylistName = $value->partylist_id === 0 ? "Independent" : PartyList::find($value->partylist_id)->first()->name;
 			array_push($summary, [
