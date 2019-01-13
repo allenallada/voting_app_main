@@ -8,7 +8,7 @@ use App\Candidate;
 use App\PartyList;
 
 class SummaryExports implements FromCollection, WithHeadings
-
+{
 	public function collection()
     {
     	$summary = [['']];
