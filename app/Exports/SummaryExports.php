@@ -5,7 +5,7 @@ use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use App\Candidate;
-use App\PartyList;
+use App\Partylist;
 
 class SummaryExports implements FromCollection, WithHeadings
 {
@@ -18,7 +18,7 @@ class SummaryExports implements FromCollection, WithHeadings
 		$SCandidates =  Candidate::withCount('vote')->where('position', 'Secretary')->orderBy('vote_count', 'desc')->get();
 
 		foreach ($PCandidates  as $value) {
-			$partylistName = $value->partylist_id === 0 ? "Independent" : PartyList::find($value->partylist_id)->first()->name;
+			$partylistName = $value->partylist_id === 0 ? "Independent" : \App\Partylist::find($value->partylist_id)->first()->name;
 
 			array_push($summary, [
 				"id" => $value->id,
@@ -34,7 +34,7 @@ class SummaryExports implements FromCollection, WithHeadings
 		array_push($summary, ['']);
 
 		foreach ($VCandidates  as $value) {
-			$partylistName = $value->partylist_id === 0 ? "Independent" : PartyList::find($value->partylist_id)->first()->name;
+			$partylistName = $value->partylist_id === 0 ? "Independent" : \App\Partylist::find($value->partylist_id)->first()->name;
 			array_push($summary, [
 				"id" => $value->id,
 			    "student_id" => $value->student_id,
@@ -49,7 +49,7 @@ class SummaryExports implements FromCollection, WithHeadings
 		array_push($summary, ['']);
 
 		foreach ($SCandidates  as $value) {
-			$partylistName = $value->partylist_id === 0 ? "Independent" : PartyList::find($value->partylist_id)->first()->name;
+			$partylistName = $value->partylist_id === 0 ? "Independent" : \App\Partylist::find($value->partylist_id)->first()->name;
 			array_push($summary, [
 				"id" => $value->id,
 			    "student_id" => $value->student_id,
