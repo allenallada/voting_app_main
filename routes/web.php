@@ -25,6 +25,8 @@ Route::group(['middleware' => ['is_logged_in']], function () {
 	Route::get('/admin/candidates', 'CandidateController@index');
 	Route::delete('/admin/candidates/{candidate}', 'CandidateController@delete');
 	Route::post('/admin/candidates/store', 'CandidateController@store');
+	Route::post('/admin/polls/store', 'AdminsController@storepoll');
+	Route::post('/admin/polls/{poll}/delete', 'AdminsController@deletepoll');
 	Route::post('/admin/partylist/store', 'PartylistController@store');
 	Route::post('/admin/{admin}/update', 'AdminsController@update');
 	Route::post('/admin/{admin}/delete', 'AdminsController@delete');
@@ -40,7 +42,7 @@ Route::get('/api/mobile/getCandidates', 'CandidateController@getCandidates');
 Route::group(['middleware' => ['app_key_verify']], function () {
 	Route::post('/api/local/register', 'VotersController@store');
 	Route::post('/api/local/login', 'AdminsController@apiLogin');
-	Route::post('/api/mobile/login', 'VotersController@login');
+	Route::post('/api/mobile/login', 'VotersController@login')->middleware('is_poll_active');
 	Route::post('/api/mobile/vote', 'VotersController@vote');
 	
  	// Route::get('/admin', 'AdminsController@home');

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Admin;
 use App\Candidate;
+use App\Poll;
+use DateTime;
 
 class AdminsController extends Controller
 {
@@ -21,7 +23,7 @@ class AdminsController extends Controller
 		request()->validate([
             'student_id' => 'required|string|max:255|unique:admins',
             'name' => 'required|string|max:255',
-            'username' => 'required|string|max:255',
+            'username' => 'required|string|max:255|unique:admins',
             'position' => 'required|string|max:255|unique:admins',
             'password' => 'required|string|min:6|confirmed',
         ]);
@@ -58,11 +60,12 @@ class AdminsController extends Controller
 
     public function home()
     {
-    	$admins = Admin::all();
+        $admins = Admin::all();
+    	$polls = Poll::all();
     	$PCandidates = Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get();
     	$VCandidates = Candidate::withCount('vote')->where('position', 'Vice President')->orderBy('vote_count', 'desc')->get();
     	$SCandidates = Candidate::withCount('vote')->where('position', 'Secretary')->orderBy('vote_count', 'desc')->get();
-    	return view('admin.home', compact('admins', 'PCandidates', 'VCandidates', 'SCandidates'));
+    	return view('admin.home', compact('admins', 'PCandidates', 'VCandidates', 'SCandidates', 'polls'));
     }
 
     public function exportResult()
@@ -171,5 +174,32 @@ class AdminsController extends Controller
 	    			'message' => 'successfully logged in!'
 	    		]
 	    	];
+    }
+
+    public function storepoll(){
+        request()->validate([
+            'start_time' => 'required',
+            'end_time' => 'required'
+        ]);
+
+        $st_dt = new DateTime(request('start_time'));
+        $end_dt = new DateTime(request('end_time'));
+
+        if($st_dt > $end_dt){
+            session()->flash('error', 'Start time must be earlier than end time'); 
+            return;
+        }
+
+        Poll::create([
+            'start' => request('start_time'),
+            'end' => request('end_time')
+        ]);
+
+        return back();
+    }
+
+    public function deletepoll(Poll $poll){
+        $poll->delete();
+        return back();
     }
 }

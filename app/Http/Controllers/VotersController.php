@@ -105,6 +105,16 @@ class VotersController extends Controller
             	]
             ];
     	}
+
+        $voterscount = Voter::where('mac_address', request('qr_code'))->count();
+
+        if($voterscount >= 3) {
+            return [
+                'error' => [
+                    'message' => 'Max usage of this phone is already reached'
+                ]
+            ];
+        }
     	// dd($voter);
     	return [
     		'success' => [
@@ -119,6 +129,7 @@ class VotersController extends Controller
     {
     	$validator = Validator::make(request()->all(), [
             'voter_id' => 'required|integer',
+            'mac_address' => 'required|string',
             'p_id' => 'required|integer|',
             'vp_id' => 'required|integer|',
             'sec_id' => 'required|integer|'
@@ -151,7 +162,8 @@ class VotersController extends Controller
 	    	]);
     	}
 
-    	$voter->has_voted = true;
+        $voter->has_voted = true;
+    	$voter->mac_address = request('mac_address');
     	$voter->save();
 
     	return [

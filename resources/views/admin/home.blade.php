@@ -34,6 +34,7 @@
             <br>
             <button class="btn btn-primary" id="add_candidate" type="button" data-toggle="modal" data-target="#editInfo">Edit My Info</button>
             <button class="btn btn-danger" id="add_candidate" type="button" data-toggle="modal" data-target="#manage_admin">Manage Admin Accounts</button>
+            <button class="btn btn-danger" id="add_candidate" type="button" data-toggle="modal" data-target="#manage_polling">Manage Polling Hours</button>
         </div>    
         <div class="d-flex">
             <form action="/admin/export/summary" method="GET" class="m-1">
@@ -88,6 +89,13 @@
                       </tr>
                     </thead>
                     <tbody >
+                        @if($PCandidates->count() === 0)
+                            <tr>
+                                <td colspan="6">
+                                    <div style="text-align: center;">No Record Found</div>
+                                </td>
+                            </tr>
+                        @endif
                         @foreach ($PCandidates as $key => $candidate)
 
                             <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
@@ -135,6 +143,13 @@
                       </tr>
                     </thead>
                     <tbody >
+                        @if($VCandidates->count() === 0)
+                            <tr>
+                                <td colspan="6">
+                                    <div style="text-align: center;">No Record Found</div>
+                                </td>
+                            </tr>
+                        @endif
                         @foreach ($VCandidates as $key => $candidate)
                             <tr class="{{ $key === 0 ? 'bg-success' : '' }}">
                                 <th scope="row">{{ $candidate->id }}</th>
@@ -181,6 +196,13 @@
                       </tr>
                     </thead>
                     <tbody >
+                        @if($SCandidates->count() === 0)
+                            <tr>
+                                <td colspan="6">
+                                    <div style="text-align: center;">No Record Found</div>
+                                </td>
+                            </tr>
+                        @endif
                         @foreach ($SCandidates as $key => $candidate)
                             <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
                                 <th scope="row">{{ $candidate->id }}</th>
@@ -289,6 +311,70 @@
                 </div>
         </div>
     </div>
+
+<div class="modal fade" id="manage_polling" tabindex="-1" role="dialog" aria-labelledby="manage_admin" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="manage_adminLabel">Manage Polling Hours</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <table class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Start Time</th>
+                            <th scope="col">End Time</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @if($polls->count() === 0)
+                            <tr>
+                                <td colspan="3">
+                                    <div style="text-align: center;">No Record Found</div>
+                                </td>
+                            </tr>
+                            @endif
+                            @foreach ($polls as $key => $poll)
+                                <tr>
+                                    <td>{{ date('M/d/Y h:i A', strtotime( $poll->start )) }}</td>
+                                    <td>{{ date('M/d/Y h:i A', strtotime( $poll->end )) }}</td>
+                                    <td>
+                                        <form action="/admin/polls/{{$poll->id}}/delete" method="POST">
+                                            <input type="" name="id" value="{{ $poll->id }}" hidden>
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <br>
+                <form action="/admin/polls/store" method="POST">  
+                    <div class="modal-body">
+                         <h5>Add New Poll Hours</h5>
+                            <div class="form-group">
+                                <label for="student_id">Start-time and Date</label>
+                                <input type="datetime-local" class="form-control" name="start_time" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="student_id">End-time and Date</label>
+                                <input type="datetime-local" class="form-control" name="end_time" required>
+                            </div>
+                            <ul class="list-group">
+                    </div>
+                    <div class="modal-footer">
+                         <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+        
+    </div>
+</div>
 
 
 @foreach ($admins as $admin)

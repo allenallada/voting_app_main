@@ -60,5 +60,6 @@ class Kernel extends HttpKernel
         'has_session' => \App\Http\Middleware\CheckUserSession::class,
         'is_logged_in' => \App\Http\Middleware\CheckIfLoggedIn::class,
         'app_key_verify' => \App\Http\Middleware\AppKeyVerify::class,
+        'is_poll_active' => \App\Http\Middleware\PollChecker::class,
     ];
 }
