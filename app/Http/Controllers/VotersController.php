@@ -98,6 +98,16 @@ class VotersController extends Controller
             ];
         }
 
+         $voterscount = Voter::where('mac_address', request('qr_code'))->count();
+
+        if($voterscount >= 3) {
+            return [
+                'error' => [
+                    'message' => 'Max usage of this phone is already reached'
+                ]
+            ];
+        }
+
     	$voter = Voter::where('qr_code', request('qr_code'))->first();
 
     	if($voter === null) {
