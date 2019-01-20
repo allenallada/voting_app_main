@@ -87,6 +87,7 @@ class VotersController extends Controller
     {
     	$validator = Validator::make(request()->all(), [
             'qr_code' => 'required|string|max:255',
+            'mac_address' => 'required|string|max:255'
         ]);
 
         if ($validator->fails()) {
@@ -98,6 +99,7 @@ class VotersController extends Controller
         }
 
     	$voter = Voter::where('qr_code', request('qr_code'))->first();
+
     	if($voter === null) {
     		return [
             	'error' => [
@@ -165,6 +167,8 @@ class VotersController extends Controller
         $voter->has_voted = true;
     	$voter->mac_address = request('mac_address');
     	$voter->save();
+
+
 
     	return [
     		'success' => [
