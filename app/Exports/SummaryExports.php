@@ -16,6 +16,7 @@ class SummaryExports implements FromCollection, WithHeadings
 		$PCandidates =  Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get();
 		$VCandidates =  Candidate::withCount('vote')->where('position', 'Vice President')->orderBy('vote_count', 'desc')->get();
 		$SCandidates =  Candidate::withCount('vote')->where('position', 'Secretary')->orderBy('vote_count', 'desc')->get();
+		$SenCandidates =  Candidate::withCount('vote')->where('position', 'Senator')->orderBy('vote_count', 'desc')->get();
 
 		foreach ($PCandidates  as $value) {
 			$partylistName = $value->partylist_id === 0 ? "Independent" : \App\Partylist::find($value->partylist_id)->first()->name;
@@ -49,6 +50,21 @@ class SummaryExports implements FromCollection, WithHeadings
 		array_push($summary, ['']);
 
 		foreach ($SCandidates  as $value) {
+			$partylistName = $value->partylist_id === 0 ? "Independent" : \App\Partylist::find($value->partylist_id)->first()->name;
+			array_push($summary, [
+				"id" => $value->id,
+			    "student_id" => $value->student_id,
+			    "name" => $value->name,
+			    "partylist_id" => $partylistName,
+			    "section" => $value->section,
+			    "position" => $value->position,
+			    "vote_count" =>  $value->vote_count === 0 ? '0' : $value->vote_count,
+			]);
+		}
+
+		array_push($summary, ['']);
+
+		foreach ($SenCandidates  as $value) {
 			$partylistName = $value->partylist_id === 0 ? "Independent" : \App\Partylist::find($value->partylist_id)->first()->name;
 			array_push($summary, [
 				"id" => $value->id,

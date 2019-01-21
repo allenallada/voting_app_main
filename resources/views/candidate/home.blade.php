@@ -204,6 +204,7 @@
                             <option value="President">President</option>
                             <option value="Vice President">Vice President</option>
                             <option value="Secretary">Secretary</option>
+                            <option value="Senator">Senator</option>
                         </select>
                     </div>
                 </div>

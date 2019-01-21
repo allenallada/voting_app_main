@@ -51,7 +51,7 @@
                 <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" placeholder="Confirm Password" required>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
-            <button id="cancel_register" type="button" href="/" class="btn btn-primary">Cancel</button>
+            <a href="/" class="btn btn-primary">Cancel</a>
 
             @if ($errors->any())
             <br>

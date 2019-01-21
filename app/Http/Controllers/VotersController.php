@@ -11,50 +11,51 @@ class VotersController extends Controller
 {
     public function index()
     {
-    	$voters = Voter::all();
-    	return view('voter.home', compact('voters'));
+        $voters = Voter::all();
+        return view('voter.home', compact('voters'));
     }
 
     public function store()
     {
-    	$validator = Validator::make(request()->all(), [
+        $validator = Validator::make(request()->all(), [
             'qr_code' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
             return [
-            	'error' => [
-            		'message' => 'invalid parameters'
-            	]
+                'error' => [
+                        'message' => 'invalid parameters'
+                ]
             ];
         }
 
         $voter = Voter::where('qr_code', request('qr_code'))->first();
 
         if($voter !== null) {
-        	return [
-            	'error' => [
-            		'message' => 'already exists!'
-            	]
+                return [
+                'error' => [
+                        'message' => 'already exists!'
+                ]
             ];
         }
 
         $qrCode = request('qr_code');
 
         $fragments = explode(' ', $qrCode);
-        $result = array_filter($fragments);           
+        $result = array_filter($fragments);
 
-       	$qrId = array_pop($result);
-       	$qrStudentId = array_pop($result);
-       	$name = implode(' ', $result);
+        $qrId = array_pop($result);
+        $qrStudentId = array_pop($result);
+        $name = implode(' ', $result);
 
-       	$parameters = [
-       		'id_no' => $qrId,
-       		'student_id' => $qrStudentId,
-       		'name' => $name,
-       	];
+        $parameters = [
+                'id_no' => $qrId,
+                'student_id' => $qrStudentId,
+                'student_id' => $qrStudentId,
+                'name' => $name,
+        ];
 
-       	$validator = Validator::make($parameters, [
+        $validator = Validator::make($parameters, [
             'id_no' => 'required|digits:4',
             'student_id' => 'required|string|size:11',
             'name' => 'required|string',
@@ -62,43 +63,44 @@ class VotersController extends Controller
 
         if ($validator->fails()) {
             return [
-            	'error' => [
-            		'message' => 'invalid parameters'
-            	]
+                'error' => [
+                        'message' => 'invalid parameters'
+                ]
             ];
         }
 
         Voter::create([
-    		'qr_code' => $qrCode,
-    		'name' => $name,
-    		'qr_code_id' => $qrId,
-    		'qr_code_student_id' => $qrStudentId,
-    		'qr_code' => $qrCode,
-    	]);
+                'qr_code' => $qrCode,
+                'name' => $name,
+                'qr_code_id' => $qrId,
+                'qr_code_student_id' => $qrStudentId,
+                'qr_code' => $qrCode,
+        ]);
 
-    	return [
-    		'result' => [
-    			'message' => 'Registered successfuly!'
-    		]
-    	];
+        return [
+                'result' => [
+                        'message' => 'Registered successfuly!'
+                ]
+        ];
     }
 
     public function login()
     {
-    	$validator = Validator::make(request()->all(), [
+        $validator = Validator::make(request()->all(), [
             'qr_code' => 'required|string|max:255',
-            'mac_address' => 'required|string|max:255'
+            'mac_address' =>  'required|string|max:255'
         ]);
 
         if ($validator->fails()) {
             return [
-            	'error' => [
-            		'message' => 'invalid parameters'
-            	]
+                'error' => [
+                        'message' => 'invalid parameters'
+                ]
             ];
         }
 
-         $voterscount = Voter::where('mac_address', request('qr_code'))->count();
+        $voterscount = Voter::where('mac_address', request('mac_address'))->count();
+
 
         if($voterscount >= 3) {
             return [
@@ -108,38 +110,31 @@ class VotersController extends Controller
             ];
         }
 
-    	$voter = Voter::where('qr_code', request('qr_code'))->first();
+        $voter = Voter::where('qr_code', request('qr_code'))->first();
 
-    	if($voter === null) {
-    		return [
-            	'error' => [
-            		'message' => 'no voter record found'
-            	]
-            ];
-    	}
-
-        $voterscount = Voter::where('mac_address', request('qr_code'))->count();
-
-        if($voterscount >= 3) {
-            return [
+        if($voter === null) {
+                return [
                 'error' => [
-                    'message' => 'Max usage of this phone is already reached'
+                        'message' => 'no voter record found'
                 ]
             ];
         }
-    	// dd($voter);
-    	return [
-    		'success' => [
-    			'message' => 'successfully logged in!',
-    			'has_voted' => $voter->has_voted,
-    			'id' => $voter->id
-    		]
-    	];
+
+        $voterscount = Voter::where('mac_address', request('mac_address'))->count();
+
+
+        return [
+                'success' => [
+                        'message' => 'successfully logged in!',
+                        'has_voted' => $voter->has_voted,
+                        'id' => $voter->id
+                ]
+        ];
     }
 
     public function vote()
     {
-    	$validator = Validator::make(request()->all(), [
+        $validator = Validator::make(request()->all(), [
             'voter_id' => 'required|integer',
             'mac_address' => 'required|string',
             'p_id' => 'required|integer|',
@@ -149,43 +144,50 @@ class VotersController extends Controller
 
         if ($validator->fails()) {
             return [
-            	'error' => [
-            		'message' => 'invalid parameters'
-            	]
+                'error' => [
+                        'message' => 'invalid parameters'
+                ]
             ];
         }
 
-    	$voter = Voter::findOrFail(request('voter_id'));
+        $voter = Voter::findOrFail(request('voter_id'));
 
-    	// dd($voter);
-    	// dd(request()->all());
+        $voter = Voter::findOrFail(request('voter_id'));
 
-    	$candidateList = [
-    		'p_id' => 'President',
-    		'vp_id' => 'Vice President',
-    		'sec_id' => 'Secretary'
-    	];
 
-    	foreach ($candidateList as $key => $value) {
-    		Vote::create([
-	    		'voter_id' => request('voter_id'),
-	    		'candidate_id' => request($key),
-	    		'position' => $value
-	    	]);
-    	}
+        if($voter->has_voted !== 0){
+                return [
+                        'error' => [
+                                 'message' => 'already voted!'
+                         ]
+                 ];
+        }
+
+
+        $candidateList = [
+                'p_id' => 'President',
+                'vp_id' => 'Vice President',
+                'sec_id' => 'Secretary'
+        ];
+
+        foreach ($candidateList as $key => $value) {
+                Vote::create([
+                        'voter_id' => request('voter_id'),
+                        'candidate_id' => request($key),
+                        'position' => $value
+                ]);
+        }
 
         $voter->has_voted = true;
-    	$voter->mac_address = request('mac_address');
-    	$voter->save();
+        $voter->mac_address = request('mac_address');
+        $voter->save();
 
-
-
-    	return [
-    		'success' => [
-    			'message' => 'vote submitted'
-    		]
-    	];
-    	// $voters = Voter::all();
-    	// return view('voter.home', compact('voters'));
+        return [
+                'success' => [
+                        'message' => 'vote submitted'
+                ]
+        ];
     }
 }
+
+//<a href="/" class="btn btn-primary">Cancel</a>
