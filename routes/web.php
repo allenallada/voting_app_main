@@ -34,6 +34,9 @@ Route::group(['middleware' => ['is_logged_in']], function () {
 	Route::get('/admin/voters', 'VotersController@index');
 	Route::get('/admin/export/summary', 'AdminsController@exportResult');
 	Route::get('/admin/export/voter', 'AdminsController@exportVoters');
+	Route::post('/admin/maximum', 'AdminsController@setMax');
+	Route::patch('/admin/voter/reset/{voter}', 'VotersController@reset');
+	Route::delete('/admin/voter/delete/{voter}', 'VotersController@delete');
 });
 
 

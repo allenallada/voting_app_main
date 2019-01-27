@@ -15,6 +15,28 @@ class VotersController extends Controller
         return view('voter.home', compact('voters'));
     }
 
+    public function reset(Voter $voter)
+    {
+        $votes = $voter->votes;
+        foreach ($votes as $vote) {
+            $vote->delete();
+        }
+        $voter->has_voted = false;
+        $voter->mac_address = 'N/A';
+        $voter->save();
+        return back();
+    }
+
+     public function delete(Voter $voter)
+    {
+        $votes = $voter->votes;
+        foreach ($votes as $vote) {
+            $vote->delete();
+        }
+        $voter->delete();
+        return back();
+    }
+
     public function store()
     {
         $validator = Validator::make(request()->all(), [
@@ -47,6 +69,18 @@ class VotersController extends Controller
         $qrId = array_pop($result);
         $qrStudentId = array_pop($result);
         $name = implode(' ', $result);
+
+        $validator = Validator::make(['name' => $name], [
+            'name' => 'required|string|alpha',
+        ]);
+
+        if ($validator->fails()) {
+            return [
+                'error' => [
+                        'message' => 'invalid parameters'
+                ]
+            ];
+        }
 
         $parameters = [
                 'id_no' => $qrId,

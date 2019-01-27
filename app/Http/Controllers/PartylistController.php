@@ -22,6 +22,12 @@ class PartylistController extends Controller
 
 	public function delete(Partylist $partylist)
 	{
+		$members = $partylist->members;
+		foreach ($members as $member) {
+			$member->partylist_id = 0;
+			$member->save();
+			# code...
+		}
 		$partylist->delete();
 		return back();
 	}

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Admin;
+use App\Setting;
 use App\Candidate;
 use App\Poll;
 use DateTime;
@@ -64,8 +65,20 @@ class AdminsController extends Controller
     	$polls = Poll::all();
     	$PCandidates = Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get();
     	$VCandidates = Candidate::withCount('vote')->where('position', 'Vice President')->orderBy('vote_count', 'desc')->get();
-    	$SCandidates = Candidate::withCount('vote')->where('position', 'Secretary')->orderBy('vote_count', 'desc')->get();
-    	return view('admin.home', compact('admins', 'PCandidates', 'VCandidates', 'SCandidates', 'polls'));
+        $SCandidates = Candidate::withCount('vote')->where('position', 'Secretary')->orderBy('vote_count', 'desc')->get();
+        $SenCandidates = Candidate::withCount('vote')->where('position', 'Senator')->orderBy('vote_count', 'desc')->get();
+        $GCandidates = Candidate::withCount('vote')->where('position', 'Governor')->orderBy('vote_count', 'desc')->get();
+    	$setting = Setting::all()->first();
+    	return view('admin.home', compact(
+            'admins',
+            'PCandidates',
+            'VCandidates',
+            'SCandidates',
+            'SenCandidates',
+            'GCandidates',
+            'setting',
+            'polls'
+        ));
     }
 
     public function exportResult()
@@ -124,7 +137,7 @@ class AdminsController extends Controller
         $admin->username = request('username');
 
         if(request('new_password') !== null){
-        	$admin->password = request('new_password');
+        	$admin->password = bcrypt(request('new_password'));
         }
 
         $admin->save();
@@ -134,7 +147,6 @@ class AdminsController extends Controller
         session()->flash('success', 'Information Updated!'); 
 
         return back();
-
     }
 
     public function apiLogin()
@@ -202,4 +214,24 @@ class AdminsController extends Controller
         $poll->delete();
         return back();
     }
+
+    public function setMax(){
+
+        if(Setting::all()->count() === 0){
+            Setting::create([
+                'max_sen' => request('max_sen'),
+                'max_gov' => request('max_gov')
+            ]);
+        } else {
+            $setting = Setting::all()->first();
+            $setting->max_sen = request('max_sen');
+            $setting->max_gov = request('max_gov');
+            $setting->save();
+        }
+
+        return back();
+    }
+
+
+
 }

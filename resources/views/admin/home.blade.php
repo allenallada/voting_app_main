@@ -32,13 +32,14 @@
         <div class="jumbotron">
             <h3>Welcome Back {{ session('user')->name}}!</h3>
             <br>
-            <button class="btn btn-primary" id="add_candidate" type="button" data-toggle="modal" data-target="#editInfo">Edit My Info</button>
-            <button class="btn btn-danger" id="add_candidate" type="button" data-toggle="modal" data-target="#manage_admin">Manage Admin Accounts</button>
-            <button class="btn btn-danger" id="add_candidate" type="button" data-toggle="modal" data-target="#manage_polling">Manage Polling Hours</button>
+            <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#editInfo">Edit My Info</button>
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#manage_admin">Manage Admin Accounts</button>
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#manage_polling">Manage Polling Hours</button>
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#sen_no">Set Maximum number of Candidates</button>
         </div>    
         <div class="d-flex">
             <form action="/admin/export/summary" method="GET" class="m-1">
-                <button class="btn btn-success" id="add_candidate" type="submit">Export Summary</button>
+                <button class="btn btn-success" type="submit">Export Summary</button>
             </form>
             <form action="/admin/export/voter" method="GET" class="m-1">
                 <button class="btn btn-success" id="add_candidate" type="submit">Export Voters</button>
@@ -69,7 +70,7 @@
         @endif
 
         <div>
-            <h1>President Candidate Vote Count</h1>
+            <h3>President Candidate Vote Count</h3>
             <br>
             <div class="table-wrapper-scroll-y" style="
                                                 display: block;
@@ -123,7 +124,7 @@
         <br>
         <br>
         <div>
-            <h1>Vice President Candidate Vote Count</h1>
+            <h3>Vice President Candidate Vote Count</h3>
             <br>
             <div class="table-wrapper-scroll-y" style="
                                                 display: block;
@@ -176,7 +177,7 @@
         <br>
         <br>
         <div>
-            <h1>Secretary Candidate Vote Count</h1>
+            <h3>Secretary Candidate Vote Count</h3>
             <br>
             <div class="table-wrapper-scroll-y" style="
                                                 display: block;
@@ -204,6 +205,110 @@
                             </tr>
                         @endif
                         @foreach ($SCandidates as $key => $candidate)
+                            <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
+                                <th scope="row">{{ $candidate->id }}</th>
+                                <td>{{ $candidate->student_id }}</td>
+                                <td>{{ $candidate->name }}</td>
+                                <td>
+                                    @if($candidate->partylist_id === 0)
+                                        {{ 'Independent '}}
+                                    @else
+                                        {{ $candidate->partylist->name }}
+                                    @endif
+                                </td>
+                                <td>{{ $candidate->section }}</td>
+                                <td>
+                                    {{ $candidate->vote->count() }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div>
+            <h3>Senator Candidate Vote Count (Max : {{ $setting->max_sen}})</h3>
+            <br>
+            <div class="table-wrapper-scroll-y" style="
+                                                display: block;
+                                                max-height: 500px;
+                                                overflow-y: auto;
+                                                -ms-overflow-style: -ms-autohiding-scrollbar;
+            ">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Student No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Party List</th>
+                        <th scope="col">Section</th>
+                        <th scope="col">Vote Count</th>
+                      </tr>
+                    </thead>
+                    <tbody >
+                        @if($SenCandidates->count() <= $setting->max_sen)
+                            <tr>
+                                <td colspan="6">
+                                    <div style="text-align: center;">No Record Found</div>
+                                </td>
+                            </tr>
+                        @endif
+                        @foreach ($SenCandidates as $key => $candidate)
+                            <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
+                                <th scope="row">{{ $candidate->id }}</th>
+                                <td>{{ $candidate->student_id }}</td>
+                                <td>{{ $candidate->name }}</td>
+                                <td>
+                                    @if($candidate->partylist_id === 0)
+                                        {{ 'Independent '}}
+                                    @else
+                                        {{ $candidate->partylist->name }}
+                                    @endif
+                                </td>
+                                <td>{{ $candidate->section }}</td>
+                                <td>
+                                    {{ $candidate->vote->count() }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div>
+            <h3>Governor Candidate Vote Count (Max : {{ $setting->max_gov}})</h3>
+            <br>
+            <div class="table-wrapper-scroll-y" style="
+                                                display: block;
+                                                max-height: 500px;
+                                                overflow-y: auto;
+                                                -ms-overflow-style: -ms-autohiding-scrollbar;
+            ">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Student No.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Party List</th>
+                        <th scope="col">Section</th>
+                        <th scope="col">Vote Count</th>
+                      </tr>
+                    </thead>
+                    <tbody >
+                        @if($SenCandidates->count() <= $setting->max_sen)
+                            <tr>
+                                <td colspan="6">
+                                    <div style="text-align: center;">No Record Found</div>
+                                </td>
+                            </tr>
+                        @endif
+                        @foreach ($SenCandidates as $key => $candidate)
                             <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
                                 <th scope="row">{{ $candidate->id }}</th>
                                 <td>{{ $candidate->student_id }}</td>
@@ -265,15 +370,15 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Current Password</label>
-                        <input type="text" class="form-control" id="password" placeholder="Enter Current Password" name="password" required>
+                        <input type="password" class="form-control" id="password" placeholder="Enter Current Password" name="password" required>
                     </div>
                     <div class="form-group">
                         <label for="new_password">New Password</label>
-                        <input type="text" class="form-control" id="new_password" placeholder="Enter New Password" name="new_password">
+                        <input type="password" class="form-control" id="new_password" placeholder="Enter New Password" name="new_password">
                     </div>
                     <div class="form-group">
                         <label for="new_password_confirmation">Confirm Password</label>
-                        <input type="text" class="form-control" id="new_password_confirmation" placeholder="Confirm New Password" name="new_password_confirmation">
+                        <input type="password" class="form-control" id="new_password_confirmation" placeholder="Confirm New Password" name="new_password_confirmation">
                     </div>
                    
                 </div>
@@ -376,6 +481,34 @@
     </div>
 </div>
 
+<div class="modal fade" id="sen_no" tabindex="-1" role="dialog" aria-labelledby="manage_admin" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form action="/admin/maximum" method="POST">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="manage_adminLabel">Maximum Candidates</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group">
+                            <label for="no_sen">Edit Maximum Senators</label>
+                            <input type="number" class="form-control" id="no_sen" name="max_sen" value="{{ $setting->max_sen }}" min="1" required>
+                        </ul>
+                        <ul class="list-group">
+                            <label for="no_sen">Edit Maximum Governors</label>
+                            <input type="number" class="form-control" id="no_sen" name="max_gov" value="{{ $setting->max_gov }}" min="1" required>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 @foreach ($admins as $admin)
     <div class="modal fade" id="delete_admin{{$admin->id}}" tabindex="-1" role="dialog" aria-labelledby="delete_admin{{$admin->id}}" aria-hidden="true">
@@ -391,7 +524,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="new_password_confirmation">Confirm Password</label>
-                            <input type="text" class="form-control" id="new_password_confirmation" placeholder="Confirm Specific Admin Password" name="password">
+                            <input type="password" class="form-control" id="new_password_confirmation" placeholder="Confirm Specific Admin Password" name="password">
                         </div>
                     </div>
                     <div class="modal-footer">

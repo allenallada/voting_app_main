@@ -6,6 +6,7 @@
 
 @endpush
 
+
 @section('navbar')
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -56,6 +57,7 @@
                     <thead>
                       <tr>
                         <th scope="col">Id</th>
+                        <th scope="col">Photo</th>
                         <th scope="col">Student No.</th>
                         <th scope="col">Name</th>
                         <th scope="col">Party List</th>
@@ -68,7 +70,16 @@
                         @foreach ($candidates as $candidate)
                             <tr>
                                 <th scope="row">{{ $candidate->id }}</th>
-                                <td>{{ $candidate->student_id }}</td>
+                                <th scope="row">
+                                    <div class="mx-auto">
+                                        <img style="width: 80px; height: auto; margin:auto; text-align: center;" src="/images/{{ $candidate->image_name }}">
+                                    </div>
+                                    
+                                </th>
+                                <td>
+                                    {{ $candidate->student_id }}
+
+                                </td>
                                 <td>{{ $candidate->name }}</td>
                                 <td>
                                     @if($candidate->partylist_id === 0)
@@ -80,7 +91,7 @@
                                 <td>{{ $candidate->section }}</td>
                                 <td>{{ $candidate->position }}</td>
                                 <td>
-                                    <form action="/admin/candidates/{{ $candidate->id }}" method="POST">
+                                    <form onsubmit="return validateMyForm('Are you sure you want to delete this candidate?');" action="/admin/candidates/{{ $candidate->id }}" method="POST">
                                         {{method_field('DELETE')}}
                                         <button class="btn btn-danger" type="submit">Delete</button>
                                     </form>
@@ -124,7 +135,7 @@
                             <td>
                                 <form action="/admin/partylist/{{ $partylist->id }}" method="POST">
                                     {{method_field('DELETE')}}
-                                    <!-- <button class="btn btn-danger" type="submit">Delete</button> -->
+                                    <button  onclick="return validateMyForm('Deleting this partylist will make every member\'s partylist to Independent, continue?')" class="btn btn-danger" type="submit">Delete</button>
                                 </form>
                             </td>
                         </tr>
@@ -142,7 +153,7 @@
 @push('scripts')
 
     <!-- <script type="text/javascript" src="/js/login.js"></script> -->
-    <script type="text/javascript" src="/js/candidate.js"></script>
+    <script type="text/javascript"  src="/js/candidate.js"></script>
     <script type="text/javascript" src=" /js/bootstrap/js/bootstrap.min.js"></script>
     
 @endpush
@@ -205,6 +216,7 @@
                             <option value="Vice President">Vice President</option>
                             <option value="Secretary">Secretary</option>
                             <option value="Senator">Senator</option>
+                            <option value="Governor">Governor</option>
                         </select>
                     </div>
                 </div>

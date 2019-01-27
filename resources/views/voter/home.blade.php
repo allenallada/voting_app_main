@@ -34,7 +34,7 @@
         <br>
         <h3>Voters Section</h3>
     </div>
-    <div class="container">
+    <div class="container-fluid">
         <div  style="padding: 20px;">
             <div class="d-flex justify-content-between">
                 <h3>Registered Voters</h3>
@@ -66,6 +66,7 @@
                         <th scope="col">QR Code Student Id</th>
                         <th scope="col">Vote Status</th>
                         <th scope="col">Mac Address</th>
+                        <th scope="col">Actions</th>
                       </tr>
                     </thead>
                     <tbody >
@@ -76,8 +77,19 @@
                                 <td>{{ $voter->name }}</td>
                                 <td>{{ $voter->qr_code_id }}</td>
                                 <td>{{ $voter->qr_code_student_id }}</td>
-                                <td>{{ $voter->has_voted ? 'Done' : 'Not Voted' }}</td>
+                                <td style="{{ $voter->has_voted ?  "background-color: #66ff66;": null }}">{{ $voter->has_voted ? 'Done' : 'Not Voted' }}</td>
                                 <td>{{ $voter->mac_address }}</td>
+                                <td style="display: flex;">
+                                    <!-- {{ $voter->mac_address }} -->
+                                    <form onsubmit="return validateMyForm('Reset this Voter\'s votes? This includes the Mac Address.');" action="/admin/voter/reset/{{$voter->id}}" method="POST">
+                                        {{method_field('PATCH')}}
+                                        <button {{ $voter->has_voted === 0 ? "disabled" : "" }} style="margin-left: 2px; margin-right: 2px;" class="btn btn-warning btn-sm" type="submit">Reset</button>
+                                    </form>
+                                    <form onsubmit="return validateMyForm('Delete this Voter and all it\'s votes?');" action="/admin/voter/delete/{{$voter->id}}" method="POST">
+                                        {{method_field('DELETE')}}
+                                        <button style="margin-left: 2px; margin-right: 2px;" class="btn btn-danger btn-sm"  type="submit">Delete</button>
+                                    </form>
+                                </td>
                                 <!-- <td>
                                     <form action="/admin/voters/{{ $voter->id }}" method="POST">
                                         {{method_field('DELETE')}}
@@ -98,7 +110,7 @@
 @endsection
 
 @push('scripts')
-
+    <script type="text/javascript"  src="/js/candidate.js"></script>
     <!-- <script type="text/javascript" src="/js/login.js"></script> -->
     
 @endpush

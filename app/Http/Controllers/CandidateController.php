@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Candidate;
 use App\Partylist;
+use App\Setting;
 
 class CandidateController extends Controller
 {
@@ -99,12 +100,49 @@ class CandidateController extends Controller
             # code...
         }
 
+        $senators = Candidate::where('position', 'Senator')->get();
+        $senatorsJson = [];
+
+        foreach ($senators as $key => $senator) {
+            array_push($senatorsJson, [
+                'id' => $senator->id,
+                'name' => $senator->name,
+                'image_name' => $senator->image_name,
+                'position' => $senator->position,
+                'partylist' => $senator->partylist_id === 0 ? 'Independent' : Partylist::find($senator->partylist_id)->first()->name,
+                'section' => $senator->section
+            ]);
+            # code...
+        }
+
+        $governors = Candidate::where('position', 'Governor')->get();
+        $governorsJson = [];
+
+        foreach ($governors as $key => $governor) {
+            array_push($governorsJson, [
+                'id' => $governor->id,
+                'name' => $governor->name,
+                'image_name' => $governor->image_name,
+                'position' => $governor->position,
+                'partylist' => $governor->partylist_id === 0 ? 'Independent' : Partylist::find($governor->partylist_id)->first()->name,
+                'section' => $governor->section
+            ]);
+            # code...
+        }
+
+        $setting = Setting::all()->first();
+
         return [
             'candidates' => [
                 'presidents' => $presidentJson,
                 'vice_presidents' => $vpresidentJson,
-                'secretaries' => $secretariesJson
-            ] 
+                'secretaries' => $secretariesJson,
+                'senators' => $senatorsJson,
+            ], 
+            'c_counts' => [
+                'max_sen' => $setting->max_sen,
+                'max_gov' => $setting->max_gov,
+            ]
         ];
     }
 }
