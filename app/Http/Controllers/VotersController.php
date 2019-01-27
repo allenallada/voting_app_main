@@ -208,24 +208,29 @@ class VotersController extends Controller
                 ]);
         }
 
-        $senArray = explode(",", request('sen_ids'));
-
-        foreach ($senArray as $key => $value) {
-                Vote::create([
-                        'voter_id' => request('voter_id'),
-                        'candidate_id' => $value,
-                        'position' => 'Senator'
-                ]);
+        if(request('sen_ids') !== null){
+            $senArray = explode(",", request('sen_ids'));
+                foreach ($senArray as $key => $value) {
+                    Vote::create([
+                            'voter_id' => request('voter_id'),
+                            'candidate_id' => $value,
+                            'position' => 'Senator'
+                    ]);
+            }
         }
-        $govArray = explode(",", request('gov_ids'));
 
-        foreach ($govArray as $key => $value) {
-                Vote::create([
-                        'voter_id' => request('voter_id'),
-                        'candidate_id' => $value,
-                        'position' => 'Governor'
-                ]);
+        if(request('gov_ids') !== null){
+            $govArray = explode(",", request('gov_ids'));
+            foreach ($govArray as $key => $value) {
+                    Vote::create([
+                            'voter_id' => request('voter_id'),
+                            'candidate_id' => $value,
+                            'position' => 'Governor'
+                    ]);
+            }
         }
+        
+
 
         $voter->has_voted = true;
         $voter->mac_address = request('mac_address');
