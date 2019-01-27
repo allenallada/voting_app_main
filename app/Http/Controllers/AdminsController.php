@@ -23,7 +23,7 @@ class AdminsController extends Controller
     {
 		request()->validate([
             'student_id' => 'required|string|max:255|unique:admins',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|alpha',
             'username' => 'required|string|max:255|unique:admins',
             'position' => 'required|string|max:255|unique:admins',
             'password' => 'required|string|min:6|confirmed',
@@ -129,7 +129,7 @@ class AdminsController extends Controller
 
     	request()->validate([
             'student_id' => 'required|string|max:255',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|alpha',
             'username' => 'required|string|max:255',
             'password' => 'required|string|min:6'
         ]);

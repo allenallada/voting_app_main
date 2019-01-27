@@ -249,7 +249,7 @@
                       </tr>
                     </thead>
                     <tbody >
-                        @if($SenCandidates->count() <= $setting->max_sen)
+                        @if($SenCandidates->count()  === 0)
                             <tr>
                                 <td colspan="6">
                                     <div style="text-align: center;">No Record Found</div>
@@ -257,7 +257,7 @@
                             </tr>
                         @endif
                         @foreach ($SenCandidates as $key => $candidate)
-                            <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
+                            <tr class="{{  $key < $setting->max_sen ? 'bg-success' : '' }}">
                                 <th scope="row">{{ $candidate->id }}</th>
                                 <td>{{ $candidate->student_id }}</td>
                                 <td>{{ $candidate->name }}</td>
@@ -301,15 +301,15 @@
                       </tr>
                     </thead>
                     <tbody >
-                        @if($SenCandidates->count() <= $setting->max_sen)
+                        @if($GCandidates->count()  === 0)
                             <tr>
                                 <td colspan="6">
                                     <div style="text-align: center;">No Record Found</div>
                                 </td>
                             </tr>
                         @endif
-                        @foreach ($SenCandidates as $key => $candidate)
-                            <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
+                        @foreach ($GCandidates as $key => $candidate)
+                            <tr class="{{ $key < $setting->max_gov ? 'bg-success' : '' }}">
                                 <th scope="row">{{ $candidate->id }}</th>
                                 <td>{{ $candidate->student_id }}</td>
                                 <td>{{ $candidate->name }}</td>
