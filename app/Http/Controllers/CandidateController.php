@@ -132,11 +132,11 @@ class CandidateController extends Controller
         $setting = Setting::all()->first();
         $maxSen = 5;
         $maxGov = 5;
-        if($setting->count !== 0){
+        if($setting !== null){
             $maxSen = $setting->max_sen;
             $maxGov = $setting->max_gov;
         }
-        
+
         return [
             'candidates' => [
                 'presidents' => $presidentJson,
@@ -146,8 +146,8 @@ class CandidateController extends Controller
                 'governors' => $governorsJson,
             ], 
             'c_counts' => [
-                'max_sen' => $setting->max_sen,
-                'max_gov' => $setting->max_gov,
+                'max_sen' => $maxSen,
+                'max_gov' => $maxGov,
             ]
         ];
     }

@@ -186,9 +186,6 @@ class VotersController extends Controller
 
         $voter = Voter::findOrFail(request('voter_id'));
 
-        $voter = Voter::findOrFail(request('voter_id'));
-
-
         if($voter->has_voted !== 0){
                 return [
                         'error' => [
@@ -196,7 +193,6 @@ class VotersController extends Controller
                          ]
                  ];
         }
-
 
         $candidateList = [
                 'p_id' => 'President',
@@ -209,6 +205,25 @@ class VotersController extends Controller
                         'voter_id' => request('voter_id'),
                         'candidate_id' => request($key),
                         'position' => $value
+                ]);
+        }
+
+        $senArray = explode(",", request('sen_ids'));
+
+        foreach ($senArray as $key => $value) {
+                Vote::create([
+                        'voter_id' => request('voter_id'),
+                        'candidate_id' => $value,
+                        'position' => 'Senator'
+                ]);
+        }
+        $govArray = explode(",", request('gov_ids'));
+
+        foreach ($govArray as $key => $value) {
+                Vote::create([
+                        'voter_id' => request('voter_id'),
+                        'candidate_id' => $value,
+                        'position' => 'Governor'
                 ]);
         }
 
