@@ -69,7 +69,6 @@ class CandidateController extends Controller
             # code...
         }
 
-
         $vpresidents = Candidate::where('position', 'Vice President')->get();
 
         $vpresidentJson = [];
@@ -131,6 +130,12 @@ class CandidateController extends Controller
         }
 
         $setting = Setting::all()->first();
+        $maxSen = 5;
+        $maxGov = 5;
+        if($setting->count !== 0){
+            $maxSen = $setting->max_sen;
+            $maxGov = $setting->max_gov;
+        }
 
         return [
             'candidates' => [
@@ -138,6 +143,7 @@ class CandidateController extends Controller
                 'vice_presidents' => $vpresidentJson,
                 'secretaries' => $secretariesJson,
                 'senators' => $senatorsJson,
+                'governors' => $governorsJson,
             ], 
             'c_counts' => [
                 'max_sen' => $setting->max_sen,
