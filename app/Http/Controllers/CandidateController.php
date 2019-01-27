@@ -136,7 +136,7 @@ class CandidateController extends Controller
             $maxSen = $setting->max_sen;
             $maxGov = $setting->max_gov;
         }
-
+        
         return [
             'candidates' => [
                 'presidents' => $presidentJson,

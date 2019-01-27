@@ -69,6 +69,14 @@ class AdminsController extends Controller
         $SenCandidates = Candidate::withCount('vote')->where('position', 'Senator')->orderBy('vote_count', 'desc')->get();
         $GCandidates = Candidate::withCount('vote')->where('position', 'Governor')->orderBy('vote_count', 'desc')->get();
     	$setting = Setting::all()->first();
+        if ($setting === null){
+            Setting::create([
+                'max_sen' => 5,
+                'max_gov' => 5
+            ]);
+            $setting = Setting::all()->first();
+        }
+
     	return view('admin.home', compact(
             'admins',
             'PCandidates',
