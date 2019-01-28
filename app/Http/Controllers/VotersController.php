@@ -209,8 +209,9 @@ class VotersController extends Controller
                         'candidate_id' => request($key),
                         'position' => $value
                 ]);
-
-                array_push($summary, Candidate::find(request($key)));
+                $can = Candidate::find(request($key));
+                $can['partylist'] = $can->partylist_id === 0 ? 'Independent' : Partylist::find($can->partylist_id)->first()->name;
+                array_push($summary, $can);
         }
 
         if(request('sen_ids') !== null){
@@ -222,7 +223,9 @@ class VotersController extends Controller
                             'position' => 'Senator'
                     ]);
 
-                    array_push($summary, Candidate::find($value));
+                    $can = Candidate::find($value);
+                    $can['partylist'] = $can->partylist_id === 0 ? 'Independent' : Partylist::find($can->partylist_id)->first()->name;
+                    array_push($summary, $can);
             }
         }
 
@@ -234,7 +237,10 @@ class VotersController extends Controller
                             'candidate_id' => $value,
                             'position' => 'Governor'
                     ]);
-                    array_push($summary, Candidate::find($value));
+
+                    $can = Candidate::find($value);
+                    $can['partylist'] = $can->partylist_id === 0 ? 'Independent' : Partylist::find($can->partylist_id)->first()->name;
+                    array_push($summary, $can);
             }
         }
 
