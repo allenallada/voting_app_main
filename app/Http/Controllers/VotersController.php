@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Voter;
 use App\Vote;
+use App\Candidate;
 
 class VotersController extends Controller
 {
@@ -200,12 +201,16 @@ class VotersController extends Controller
                 'sec_id' => 'Secretary'
         ];
 
+        $summary = [];
+
         foreach ($candidateList as $key => $value) {
                 Vote::create([
                         'voter_id' => request('voter_id'),
                         'candidate_id' => request($key),
                         'position' => $value
                 ]);
+
+                array_push($summary, Candidate::find(request($key)));
         }
 
         if(request('sen_ids') !== null){
@@ -216,6 +221,8 @@ class VotersController extends Controller
                             'candidate_id' => $value,
                             'position' => 'Senator'
                     ]);
+
+                    array_push($summary, Candidate::find($value));
             }
         }
 
@@ -227,10 +234,9 @@ class VotersController extends Controller
                             'candidate_id' => $value,
                             'position' => 'Governor'
                     ]);
+                    array_push($summary, Candidate::find($value));
             }
         }
-        
-
 
         $voter->has_voted = true;
         $voter->mac_address = request('mac_address');
@@ -239,7 +245,8 @@ class VotersController extends Controller
         return [
                 'success' => [
                         'message' => 'vote submitted'
-                ]
+                ],
+                'summary' => $summary
         ];
     }
 }
