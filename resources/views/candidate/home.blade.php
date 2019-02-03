@@ -30,11 +30,19 @@
 
 @section('content')
     <br>
+    <br>
     <div class="container-fluid d-flex">
-        <div  style="width: 50%; padding: 20px;">
+        <div  style="width: 50%; padding: 20px; background-color: white; border-radius: 20px; margin: 5px;">
             <div class="d-flex justify-content-between">
-                <h3>Candidates</h3>
-                <button class="btn btn-primary" id="add_candidate" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCandidateModal">Add Candidate</button>
+                <h3>Candidates : Total ({{ $candidates->count()}})</h3>
+                <div style="display: flex; ">
+                    <button class="btn btn-primary" id="add_candidate" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addCandidateModal">Add Candidate</button>
+                    <form style="margin: 0; margin-left: 10px;" action="/admin/candidates/deleteAll" method="POST" onsubmit="return validateMyForm('Delete all Candidates? This cannot be undone.');" >
+                    {{method_field('DELETE')}}
+                    <button class="btn btn-danger" type="submit">Delete All Candidates</button>
+                </form>
+                </div>
+
             </div>
             <br>
             @if ($errors->any())
@@ -45,7 +53,6 @@
                         @endforeach
                     </ul>
                 </div>
-
             @endif
             <div class="table-wrapper-scroll-y" style="
                                                 display: block;
@@ -67,9 +74,16 @@
                       </tr>
                     </thead>
                     <tbody >
-                        @foreach ($candidates as $candidate)
+                        @if($candidates->count() === 0)
                             <tr>
-                                <th scope="row">{{ $candidate->id }}</th>
+                                <td colspan="8">
+                                    <div style="text-align: center;">No Record Found</div>
+                                </td>
+                            </tr>
+                        @endif
+                        @foreach ($candidates as $key => $candidate)
+                            <tr>
+                                <th scope="row">{{ $key + 1 }}</th>
                                 <th scope="row">
                                     <div class="mx-auto">
                                         <img style="width: 80px; height: auto; margin:auto; text-align: center;" src="/images/{{ $candidate->image_name }}">
@@ -104,10 +118,17 @@
         
         </div>
 
-        <div  style="width: 50%; padding: 20px;">
+        <div  style="width: 50%; padding: 20px; background-color: white; border-radius: 20px; margin: 5px;">
             <div class="d-flex justify-content-between" >
-                <h3>Party List</h3>
+                <h3>Party List : Total ({{ $partylists->count()}})</h3>
+                <div style="display: flex; ">
+                    
                 <button class="btn btn-primary" id="add_partylist" type="button" class="btn btn-primary" data-toggle="modal" data-target="#addPartyList">Add Party List</button>
+                <form style="margin: 0; margin-left: 10px;" action="/admin/partylist/deleteAll" method="POST" onsubmit="return validateMyForm('Delete all Partylists? This cannot be undone.');" >
+                    {{method_field('DELETE')}}
+                    <button class="btn btn-danger" type="submit">Delete All Partylist</button>
+                </form>
+                </div>
                 <!-- <button class="btn btn-primary">Add Party List</button> -->
             </div>
             <br>
@@ -127,9 +148,16 @@
                       </tr>
                     </thead>
                     <tbody >
-                        @foreach ($partylists as $partylist)
+                        @if($partylists->count() === 0)
                             <tr>
-                            <th scope="row">{{ $partylist->id }}</th>
+                                <td colspan="6">
+                                    <div style="text-align: center;">No Record Found</div>
+                                </td>
+                            </tr>
+                        @endif
+                        @foreach ($partylists as $key => $partylist)
+                            <tr>
+                            <th scope="row">{{ $key + 1}}</th>
                             <td>{{ $partylist->name }}</td>
                             <td>{{ $partylist->members()->count() }}</td>
                             <td>

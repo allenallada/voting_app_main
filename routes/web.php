@@ -20,6 +20,11 @@ Route::get('/admin/register', 'AdminsController@register');
 Route::post('/admin/create', 'AdminsController@create');
 
 Route::group(['middleware' => ['is_logged_in']], function () {
+	Route::delete('/admin/candidates/deleteAll', 'CandidateController@deleteAll');
+	Route::delete('/admin/partylist/deleteAll', 'PartylistController@deleteAll');
+	Route::patch('/admin/voter/reset/{voter}', 'VotersController@reset');
+	Route::delete('/admin/voter/delete/{voter}', 'VotersController@delete');
+	Route::delete('/admin/voters/deleteAll', 'VotersController@deleteAll');
     Route::get('/admin', 'AdminsController@home');
 	Route::get('/admin/logout', 'AdminsController@logout');
 	Route::get('/admin/candidates', 'CandidateController@index');
@@ -35,8 +40,6 @@ Route::group(['middleware' => ['is_logged_in']], function () {
 	Route::get('/admin/export/summary', 'AdminsController@exportResult');
 	Route::get('/admin/export/voter', 'AdminsController@exportVoters');
 	Route::post('/admin/maximum', 'AdminsController@setMax');
-	Route::patch('/admin/voter/reset/{voter}', 'VotersController@reset');
-	Route::delete('/admin/voter/delete/{voter}', 'VotersController@delete');
 });
 
 

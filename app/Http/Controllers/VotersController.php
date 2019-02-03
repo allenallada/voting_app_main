@@ -7,6 +7,7 @@ use Validator;
 use App\Voter;
 use App\Vote;
 use App\Candidate;
+use App\Partylist;
 
 class VotersController extends Controller
 {
@@ -35,6 +36,13 @@ class VotersController extends Controller
             $vote->delete();
         }
         $voter->delete();
+        return back();
+    }
+
+    public function deleteAll()
+    {
+        Voter::truncate();
+        Vote::truncate();
         return back();
     }
 
@@ -169,22 +177,6 @@ class VotersController extends Controller
 
     public function vote()
     {
-        $validator = Validator::make(request()->all(), [
-            'voter_id' => 'required|integer',
-            'mac_address' => 'required|string',
-            'p_id' => 'required|integer|',
-            'vp_id' => 'required|integer|',
-            'sec_id' => 'required|integer|'
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'error' => [
-                        'message' => 'invalid parameters'
-                ]
-            ];
-        }
-
         $voter = Voter::findOrFail(request('voter_id'));
 
         if($voter->has_voted !== 0){

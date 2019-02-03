@@ -9186,3 +9186,12 @@ a.text-dark:hover {
   visibility: hidden !important;
 }
 
+body  {
+  background-image: url("sample2.png");
+  background-repeat:no-repeat;
+   background-size:cover;
+   
+  /*background-size: cover;*/
+  /*background-repeat: no-repeat;*/
+  /*background-size: stretch;*/
+}

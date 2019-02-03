@@ -29,15 +29,16 @@
 @endsection
 
 @section('content')
-   
-    <div class="container">
-        <br>
-        <h3>Voters Section</h3>
-    </div>
+   <br>
+
     <div class="container-fluid">
-        <div  style="padding: 20px;">
-            <div class="d-flex justify-content-between">
-                <h3>Registered Voters</h3>
+        <div  style="padding: 20px; background-color: white; border-radius: 20px;">
+            <div class="d-flex justify-content-left">
+                <h3>Registered Voters : Total ({{$voters->count()}})</h3>
+                <form action="/admin/voters/deleteAll" method="POST" style="margin-left: 20px;" onsubmit="return validateMyForm('Delete all voters and their votes? This cannot be undone.');">
+                    {{method_field('DELETE')}}
+                    <button class="btn btn-danger" type="submit">Delete All Voters</button>
+                </form>
             </div>
             <br>
             @if ($errors->any())
@@ -62,24 +63,27 @@
                         <th scope="col">Id</th>
                         <th scope="col">QR Code</th>
                         <th scope="col">Name</th>
-                        <th scope="col">QR Code Id</th>
-                        <th scope="col">QR Code Student Id</th>
+                        <th scope="col">Student Id</th>
                         <th scope="col">Vote Status</th>
-                        <th scope="col">Mac Address</th>
                         <th scope="col">Actions</th>
                       </tr>
                     </thead>
                     <tbody >
-                        @foreach ($voters as $voter)
+                        @if($voters->count() === 0)
                             <tr>
-                                <th scope="row">{{ $voter->id }}</th>
+                                <td colspan="6">
+                                    <div style="text-align: center;">No Record Found</div>
+                                </td>
+                            </tr>
+                        @endif
+                        @foreach ($voters as $key => $voter)
+                            <tr>
+                                <th scope="row"> {{ $key + 1 }}</th>
                                 <td>{{ $voter->qr_code }}</td>
                                 <td>{{ $voter->name }}</td>
-                                <td>{{ $voter->qr_code_id }}</td>
                                 <td>{{ $voter->qr_code_student_id }}</td>
                                 <td style="{{ $voter->has_voted ?  "background-color: #66ff66;": null }}">{{ $voter->has_voted ? 'Done' : 'Not Voted' }}</td>
-                                <td>{{ $voter->mac_address }}</td>
-                                <td style="display: flex;">
+                                <td style="display: flex; justify-content: center;">
                                     <!-- {{ $voter->mac_address }} -->
                                     <form onsubmit="return validateMyForm('Reset this Voter\'s votes? This includes the Mac Address.');" action="/admin/voter/reset/{{$voter->id}}" method="POST">
                                         {{method_field('PATCH')}}

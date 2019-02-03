@@ -35,9 +35,10 @@
             <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#editInfo">Edit My Info</button>
             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#manage_admin">Manage Admin Accounts</button>
             <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#manage_polling">Manage Polling Hours</button>
-            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#sen_no">Set Maximum number of Candidates</button>
-        </div>    
-        <div class="d-flex">
+            <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#sen_no">Set Maximum number of Votes</button>
+            <br>
+            <br>
+            <div class="d-flex">
             <form action="/admin/export/summary" method="GET" class="m-1">
                 <button class="btn btn-success" type="submit">Export Summary</button>
             </form>
@@ -45,8 +46,8 @@
                 <button class="btn btn-success" id="add_candidate" type="submit">Export Voters</button>
             </form>
         </div>
-        <br>
-        <br>
+        </div>    
+        
         @if ($errors->any())
             <div class="alert alert-danger" role="alert">
                 <ul>
@@ -68,10 +69,8 @@
                 {{Session::get('success')}}
             </div>
         @endif
-
-        <div>
+        <div class="jumbotron" style="background-color: white; padding: 20px;">
             <h3>President Candidate Vote Count</h3>
-            <br>
             <div class="table-wrapper-scroll-y" style="
                                                 display: block;
                                                 max-height: 500px;
@@ -100,7 +99,7 @@
                         @foreach ($PCandidates as $key => $candidate)
 
                             <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
-                                <th scope="row"> {{ $candidate->id }}</th>
+                                <th scope="row"> {{ $key + 1 }}</th>
                                 <td>{{ $candidate->student_id }}</td>
                                 <td>{{ $candidate->name }}</td>
                                 <td>
@@ -120,12 +119,8 @@
                 </table>
             </div>
         </div>
-
-        <br>
-        <br>
-        <div>
+        <div class="jumbotron" style="background-color: white; padding: 20px;">
             <h3>Vice President Candidate Vote Count</h3>
-            <br>
             <div class="table-wrapper-scroll-y" style="
                                                 display: block;
                                                 max-height: 500px;
@@ -153,7 +148,7 @@
                         @endif
                         @foreach ($VCandidates as $key => $candidate)
                             <tr class="{{ $key === 0 ? 'bg-success' : '' }}">
-                                <th scope="row">{{ $candidate->id }}</th>
+                                <th scope="row"> {{ $key + 1 }}</th>
                                 <td>{{ $candidate->student_id }}</td>
                                 <td>{{ $candidate->name }}</td>
                                 <td>
@@ -173,12 +168,8 @@
                 </table>
             </div>
         </div>
-
-        <br>
-        <br>
-        <div>
+        <div class="jumbotron" style="background-color: white; padding: 20px;">
             <h3>Secretary Candidate Vote Count</h3>
-            <br>
             <div class="table-wrapper-scroll-y" style="
                                                 display: block;
                                                 max-height: 500px;
@@ -206,7 +197,7 @@
                         @endif
                         @foreach ($SCandidates as $key => $candidate)
                             <tr class="{{  $key === 0 ? 'bg-success' : '' }}">
-                                <th scope="row">{{ $candidate->id }}</th>
+                                <th scope="row"> {{ $key + 1 }}</th>
                                 <td>{{ $candidate->student_id }}</td>
                                 <td>{{ $candidate->name }}</td>
                                 <td>
@@ -226,11 +217,8 @@
                 </table>
             </div>
         </div>
-        <br>
-        <br>
-        <div>
+        <div class="jumbotron" style="background-color: white; padding: 20px;">
             <h3>Senator Candidate Vote Count (Max : {{ $setting->max_sen}})</h3>
-            <br>
             <div class="table-wrapper-scroll-y" style="
                                                 display: block;
                                                 max-height: 500px;
@@ -258,7 +246,7 @@
                         @endif
                         @foreach ($SenCandidates as $key => $candidate)
                             <tr class="{{  $key < $setting->max_sen ? 'bg-success' : '' }}">
-                                <th scope="row">{{ $candidate->id }}</th>
+                                <th scope="row"> {{ $key + 1 }}</th>
                                 <td>{{ $candidate->student_id }}</td>
                                 <td>{{ $candidate->name }}</td>
                                 <td>
@@ -278,9 +266,7 @@
                 </table>
             </div>
         </div>
-        <br>
-        <br>
-        <div>
+        <div class="jumbotron" style="background-color: white; padding: 20px;">
             <h3>Governor Candidate Vote Count (Max : {{ $setting->max_gov}})</h3>
             <br>
             <div class="table-wrapper-scroll-y" style="
@@ -310,7 +296,7 @@
                         @endif
                         @foreach ($GCandidates as $key => $candidate)
                             <tr class="{{ $key < $setting->max_gov ? 'bg-success' : '' }}">
-                                <th scope="row">{{ $candidate->id }}</th>
+                                <th scope="row"> {{ $key + 1 }}</th>
                                 <td>{{ $candidate->student_id }}</td>
                                 <td>{{ $candidate->name }}</td>
                                 <td>
@@ -330,7 +316,6 @@
                 </table>
             </div>
         </div>
-
     </div>
 
     

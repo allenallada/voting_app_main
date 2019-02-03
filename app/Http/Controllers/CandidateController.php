@@ -46,8 +46,14 @@ class CandidateController extends Controller
 	}
 
 	public function delete(Candidate $candidate)
+    {
+        $candidate->delete();
+        return back();
+    }
+
+    public function deleteAll()
 	{
-		$candidate->delete();
+        Candidate::truncate();
 		return back();
 	}
 
