@@ -36,9 +36,10 @@
                 <label for="username">Position</label>
                 <select class="form-control {{ $errors->has('position') ? 'is-invalid' : '' }}" id="position" name="position" required>
                     <option value="" disabled selected>---Choose Position---</option>
-                    <option value="President">President</option>
-                    <option value="Vice President">Vice President</option>
-                    <option value="Secretary">Secretary</option>
+                    <option value="President">COMSELEC President</option>
+                    <option value="Vice President">COMSELEC Vice President</option>
+                    <option value="Secretary">COMSELEC Secretary</option>
+                    <option value="OSA">OSA Admin</option>
                 </select> 
             </div>
             

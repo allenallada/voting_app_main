@@ -62,8 +62,6 @@
                       <tr>
                         <th scope="col">Id</th>
                         <th scope="col">QR Code</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Student Id</th>
                         <th scope="col">Vote Status</th>
                         <th scope="col">Actions</th>
                       </tr>
@@ -80,8 +78,6 @@
                             <tr>
                                 <th scope="row"> {{ $key + 1 }}</th>
                                 <td>{{ $voter->qr_code }}</td>
-                                <td>{{ $voter->name }}</td>
-                                <td>{{ $voter->qr_code_student_id }}</td>
                                 <td style="{{ $voter->has_voted ?  "background-color: #66ff66;": null }}">{{ $voter->has_voted ? 'Done' : 'Not Voted' }}</td>
                                 <td style="display: flex; justify-content: center;">
                                     <!-- {{ $voter->mac_address }} -->

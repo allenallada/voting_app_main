@@ -23,7 +23,7 @@ class AdminsController extends Controller
     {
 		request()->validate([
             'student_id' => 'required|string|max:255|unique:admins',
-            'name' => 'required|string|max:255|alpha',
+            'name' => 'required|string|max:255|regex:/^[\pL\s\-]+$/u',
             'username' => 'required|string|max:255|unique:admins',
             'position' => 'required|string|max:255|unique:admins',
             'password' => 'required|string|min:6|confirmed',
@@ -172,13 +172,16 @@ class AdminsController extends Controller
         }
 
         $qrCode = request('qr_code');
-
+        $qrStudentId = '';
         $fragments = explode(' ', $qrCode);
-        $result = array_filter($fragments);           
+        $result = array_filter($fragments);   
 
-       	$qrId = array_pop($result);
-       	$qrStudentId = array_pop($result);
-       	$name = implode(' ', $result);
+        foreach ($result as $value) {
+            if(preg_match('/^^[0-9]{2}-[0-9]{6}[A-Z]{2}$/m', $value) === 1 || preg_match('/^^TUPC-[0-9]{2}-[0-9]{4}$/m', $value) === 1){
+                $qrStudentId = $value;
+            }
+        }
+
     	$user = Admin::where('student_id', $qrStudentId)->first();
 
     	if($user === null){

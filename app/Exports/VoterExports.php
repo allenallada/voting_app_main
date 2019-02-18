@@ -16,10 +16,7 @@ class VoterExports implements FromCollection, WithHeadings
     	foreach ($voters as $key => $value) {
     		array_push($export, [
                 'no' => $key + 1, 
-    			'id' => $value->id, 
     			'qr_code' => $value->qr_code, 
-    			'name' => $value->name, 
-    			'qr_code_student_id' => $value->qr_code_student_id, 
     			'has_voted' => $value->has_voted === 1? 'voted' : 'not voted',
     		]);
     	}
@@ -35,10 +32,7 @@ class VoterExports implements FromCollection, WithHeadings
     {
         return [
             'No.',
-            'Database Id',
-            'Name',
-            'QR no',
-            'Student Id',
+            'QR Code',
             'Has Voted',
         ];
     }

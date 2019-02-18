@@ -16,9 +16,6 @@ class CreateVotersTable extends Migration
         Schema::create('voters', function (Blueprint $table) {
             $table->increments('id');
             $table->string('qr_code')->unique();
-            $table->string('name');
-            $table->string('qr_code_id');
-            $table->string('qr_code_student_id');
             $table->boolean('has_voted')->default(false);
             $table->string('mac_address')->default('N/A');
             $table->timestamps();

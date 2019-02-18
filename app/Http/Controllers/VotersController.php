@@ -49,7 +49,7 @@ class VotersController extends Controller
     public function store()
     {
         $validator = Validator::make(request()->all(), [
-            'qr_code' => 'required|string|max:255',
+            'qr_code' => ['required', 'string', 'max:255', 'regex:/^(\D+[0-9]{2}-[0-9]{6}[A-Z]{2}\s+[0-9]{4}|TUPC-[0-9]{2}-[0-9]{4}.+|\D+[0-9]{4})$/m'],
         ]);
 
         if ($validator->fails()) {
@@ -72,51 +72,7 @@ class VotersController extends Controller
 
         $qrCode = request('qr_code');
 
-        $fragments = explode(' ', $qrCode);
-        $result = array_filter($fragments);
-
-        $qrId = array_pop($result);
-        $qrStudentId = array_pop($result);
-        $name = implode(' ', $result);
-
-        $validator = Validator::make(['name' => $name], [
-            'name' => 'required|string|alpha',
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'error' => [
-                        'message' => 'invalid parameters'
-                ]
-            ];
-        }
-
-        $parameters = [
-                'id_no' => $qrId,
-                'student_id' => $qrStudentId,
-                'student_id' => $qrStudentId,
-                'name' => $name,
-        ];
-
-        $validator = Validator::make($parameters, [
-            'id_no' => 'required|digits:4',
-            'student_id' => 'required|string|size:11',
-            'name' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return [
-                'error' => [
-                        'message' => 'invalid parameters'
-                ]
-            ];
-        }
-
         Voter::create([
-                'qr_code' => $qrCode,
-                'name' => $name,
-                'qr_code_id' => $qrId,
-                'qr_code_student_id' => $qrStudentId,
                 'qr_code' => $qrCode,
         ]);
 
@@ -196,16 +152,17 @@ class VotersController extends Controller
         $summary = [];
 
         foreach ($candidateList as $key => $value) {
-                Vote::create([
+                if($value !== -1){
+                    Vote::create([
                         'voter_id' => request('voter_id'),
                         'candidate_id' => request($key),
                         'position' => $value
-                ]);
-                $can = Candidate::find(request($key));
-                $can['partylist'] = $can->partylist_id === 0 ? 'Independent' : Partylist::find($can->partylist_id)->first()->name;
-                array_push($summary, $can);
+                    ]);
+                    $can = Candidate::find(request($key));
+                    $can['partylist'] = $can->partylist_id === 0 ? 'Independent' : Partylist::find($can->partylist_id)->first()->name;
+                    array_push($summary, $can);
+                }
         }
-
         if(request('sen_ids') !== null){
             $senArray = explode(",", request('sen_ids'));
                 foreach ($senArray as $key => $value) {

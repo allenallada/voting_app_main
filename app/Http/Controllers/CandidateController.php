@@ -9,7 +9,6 @@ use App\Setting;
 
 class CandidateController extends Controller
 {
-    //	
     public function index()
 	{
 		$candidates = Candidate::all();
@@ -21,7 +20,7 @@ class CandidateController extends Controller
 	{
 		request()->validate([
             'student_id' => 'required|string|max:255|unique:candidates',
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|regex:/^[\pL\s\-]+$/u',
             'partylist_id' => 'required|integer|min:0',
             'section' => 'required|string|max:255',
             'position' => 'required|string|max:255',
