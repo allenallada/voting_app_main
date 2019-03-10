@@ -9,6 +9,7 @@ use App\Admin;
 use App\Setting;
 use App\Candidate;
 use App\Poll;
+use App\Voter;
 use PDF;
 use DateTime;
 
@@ -134,7 +135,9 @@ class AdminsController extends Controller
 
     public function exportVoters()
     {
-    	return \Excel::download(new \App\Exports\VoterExports, 'voters.xlsx');
+        $voters = Voter::all();
+        $pdf = PDF::loadView('admin.votersexport', compact('voters'));
+        return $pdf->download('voters.pdf');
     }
 
     public function logout()

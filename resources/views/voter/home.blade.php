@@ -54,15 +54,18 @@
                                                 -ms-overflow-style: -ms-autohiding-scrollbar;
             ">
             <div style="display: flex;">
-                <button id="deleteSelectedBtn" class="btn btn-danger"">Delete Selected</button>
+                <button id="selectAll" class="btn btn-warning" style="margin-right: 20px;" >Select All</button>
+                <button id="deleteSelectedBtn" class="btn btn-danger"" >Delete Selected</button>
                 <form action="/admin/voters/deleteAll" method="POST" style="margin-left: 20px;" onsubmit="return validateMyForm('Delete all voters and their votes? This cannot be undone.');">
                     {{method_field('DELETE')}}
                     <button class="btn btn-danger" type="submit">Delete All Voters</button>
                 </form>
             </div> 
             <br>
+
             <form id="deleteSelected" onsubmit="return validateMyForm('Delete selected Voters and all their votes?');" action="/admin/voter/deleteSelected" method="POST">
                 {{method_field('DELETE')}}
+                            <br>
                 <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
@@ -114,11 +117,11 @@
     </div>
 
 
-
 @endsection
 
 @push('scripts')
     <script type="text/javascript"  src="/js/candidate.js"></script>
+
     <!-- <script type="text/javascript" src="/js/login.js"></script> -->
     
 @endpush

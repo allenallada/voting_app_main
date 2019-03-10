@@ -15,5 +15,17 @@ $('#deleteSelectedBtn').click(function(){
 	$('#deleteSelected').submit();
 });
 
+        var bSelected = false;
+
+        $('#selectAll').click(function(){
+            if(bSelected === false) {
+                $('.tbd').prop('checked', 'checked');
+                bSelected = true;
+            } else {
+                $('.tbd').prop('checked', '');
+                bSelected = false;
+            }
+        })
+
 // alert('wew');
 
