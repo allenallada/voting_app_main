@@ -9,6 +9,7 @@ use App\Admin;
 use App\Setting;
 use App\Candidate;
 use App\Poll;
+use PDF;
 use DateTime;
 
 class AdminsController extends Controller
@@ -63,6 +64,32 @@ class AdminsController extends Controller
     {
         $admins = Admin::all();
     	$polls = Poll::all();
+        $status = [];
+
+        foreach ($polls as $key => $value) {
+            $startDate = new DateTime($value->start);
+            $endDate = new DateTime($value->end);
+            $current = new DateTime();
+            if($current < $startDate) {
+                $status[] = 'Not Started';
+            } else if ($current > $endDate) {
+                $status[] = 'Finished';
+            } else {
+                $status[] = 'On Going';
+            }
+            # code...
+        }
+
+        $pollingStatus = false;
+        foreach ($polls as $key => $poll) {
+            $current = new DateTime(now());
+            $st_dt = new DateTime($poll->start);
+            $end_dt = new DateTime($poll->end);
+            if($current > $st_dt && $current < $end_dt){
+                $pollingStatus = true;
+            }
+        }
+
     	$PCandidates = Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get();
     	$VCandidates = Candidate::withCount('vote')->where('position', 'Vice President')->orderBy('vote_count', 'desc')->get();
         $SCandidates = Candidate::withCount('vote')->where('position', 'Secretary')->orderBy('vote_count', 'desc')->get();
@@ -85,13 +112,24 @@ class AdminsController extends Controller
             'SenCandidates',
             'GCandidates',
             'setting',
-            'polls'
+            'polls',
+            'status',
+            'pollingStatus'
         ));
     }
 
     public function exportResult()
     {
-    	return \Excel::download(new \App\Exports\SummaryExports, 'summary.xlsx');
+        $aCandidates = [
+            'President'      =>  Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get(),
+            'Vice President' =>  Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get(),
+            'Secretary'      =>  Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get(),
+            'Senator'        =>  Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get(),
+            'Governor'       =>  Candidate::withCount('vote')->where('position', 'President')->orderBy('vote_count', 'desc')->get()
+        ];
+
+        $pdf = PDF::loadView('admin.export', compact('aCandidates'));
+        return $pdf->download('summary.pdf');
     }
 
     public function exportVoters()

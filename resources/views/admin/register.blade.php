@@ -12,6 +12,8 @@
 
 
     <div class="container">
+        <div class="jumbotron">
+            
         <h1>Voting App</h1>
         <br>
         <br>
@@ -68,7 +70,8 @@
 
             @endif
         </form>
-
+        </div>
+        
         
     </div>
 

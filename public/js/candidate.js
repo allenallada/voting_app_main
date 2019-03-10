@@ -7,5 +7,13 @@ function validateMyForm(smsg){
 	return false;
 }
 
+
+$('#deleteSelectedBtn').click(function(){
+	if($('.tbd:checked').length === 0) {
+		return alert('No voters selected!');
+	}
+	$('#deleteSelected').submit();
+});
+
 // alert('wew');
 

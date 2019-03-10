@@ -31,7 +31,7 @@ class CandidateController extends Controller
         $input['imagename'] = time() . '.' . $image->getClientOriginalExtension();
         $path = public_path('/images');
         $image->move($path, $input['imagename']);
-        // dd(request()->file('photo'));
+
         Candidate::create([
     		'student_id' => request('student_id'),
     		'name' => request('name'),

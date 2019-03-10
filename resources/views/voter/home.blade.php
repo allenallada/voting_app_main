@@ -31,14 +31,10 @@
 @section('content')
    <br>
 
-    <div class="container-fluid">
+    <div class="container">
         <div  style="padding: 20px; background-color: white; border-radius: 20px;">
             <div class="d-flex justify-content-left">
                 <h3>Registered Voters : Total ({{$voters->count()}})</h3>
-                <form action="/admin/voters/deleteAll" method="POST" style="margin-left: 20px;" onsubmit="return validateMyForm('Delete all voters and their votes? This cannot be undone.');">
-                    {{method_field('DELETE')}}
-                    <button class="btn btn-danger" type="submit">Delete All Voters</button>
-                </form>
             </div>
             <br>
             @if ($errors->any())
@@ -57,13 +53,24 @@
                                                 overflow-y: auto;
                                                 -ms-overflow-style: -ms-autohiding-scrollbar;
             ">
+            <div style="display: flex;">
+                <button id="deleteSelectedBtn" class="btn btn-danger"">Delete Selected</button>
+                <form action="/admin/voters/deleteAll" method="POST" style="margin-left: 20px;" onsubmit="return validateMyForm('Delete all voters and their votes? This cannot be undone.');">
+                    {{method_field('DELETE')}}
+                    <button class="btn btn-danger" type="submit">Delete All Voters</button>
+                </form>
+            </div> 
+            <br>
+            <form id="deleteSelected" onsubmit="return validateMyForm('Delete selected Voters and all their votes?');" action="/admin/voter/deleteSelected" method="POST">
+                {{method_field('DELETE')}}
                 <table class="table table-bordered table-striped">
                     <thead>
                       <tr>
+                        <th scope="col"></th>
                         <th scope="col">Id</th>
                         <th scope="col">QR Code</th>
                         <th scope="col">Vote Status</th>
-                        <th scope="col">Actions</th>
+                        <!-- <th scope="col">Actions</th> -->
                       </tr>
                     </thead>
                     <tbody >
@@ -76,11 +83,11 @@
                         @endif
                         @foreach ($voters as $key => $voter)
                             <tr>
+                                <td style="display: flex;justify-content: center;"><input class="tbd" type="checkbox" name="toDelete{{ $key }}" style="width: 18px;height: 18px;" value="{{ $voter->id }}" ></td>
                                 <th scope="row"> {{ $key + 1 }}</th>
                                 <td>{{ $voter->qr_code }}</td>
                                 <td style="{{ $voter->has_voted ?  "background-color: #66ff66;": null }}">{{ $voter->has_voted ? 'Done' : 'Not Voted' }}</td>
-                                <td style="display: flex; justify-content: center;">
-                                    <!-- {{ $voter->mac_address }} -->
+<!--                                 <td style="display: flex; justify-content: center;">
                                     <form onsubmit="return validateMyForm('Reset this Voter\'s votes? This includes the Mac Address.');" action="/admin/voter/reset/{{$voter->id}}" method="POST">
                                         {{method_field('PATCH')}}
                                         <button {{ $voter->has_voted === 0 ? "disabled" : "" }} style="margin-left: 2px; margin-right: 2px;" class="btn btn-warning btn-sm" type="submit">Reset</button>
@@ -89,7 +96,7 @@
                                         {{method_field('DELETE')}}
                                         <button style="margin-left: 2px; margin-right: 2px;" class="btn btn-danger btn-sm"  type="submit">Delete</button>
                                     </form>
-                                </td>
+                                </td> -->
                                 <!-- <td>
                                     <form action="/admin/voters/{{ $voter->id }}" method="POST">
                                         {{method_field('DELETE')}}
@@ -100,6 +107,7 @@
                         @endforeach
                     </tbody>
                 </table>
+            </form>
             </div>
         
         </div>

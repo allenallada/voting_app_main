@@ -24,6 +24,7 @@ Route::group(['middleware' => ['is_logged_in']], function () {
 	Route::delete('/admin/partylist/deleteAll', 'PartylistController@deleteAll');
 	Route::patch('/admin/voter/reset/{voter}', 'VotersController@reset');
 	Route::delete('/admin/voter/delete/{voter}', 'VotersController@delete');
+	Route::delete('/admin/voter/deleteSelected', 'VotersController@deleteSelected');
 	Route::delete('/admin/voters/deleteAll', 'VotersController@deleteAll');
     Route::get('/admin', 'AdminsController@home');
 	Route::get('/admin/logout', 'AdminsController@logout');

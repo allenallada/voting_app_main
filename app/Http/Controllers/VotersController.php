@@ -17,6 +17,28 @@ class VotersController extends Controller
         return view('voter.home', compact('voters'));
     }
 
+    public function deleteSelected()
+    {
+        $aTodelete = request()->all();
+        foreach ($aTodelete as $key => $value) {
+            if($key !== '_method') {
+                $voter = Voter::findOrFail($value);
+                $this->delete($voter);
+            }
+        }
+        return back();
+    }
+
+    public function delete(Voter $voter)
+    {
+        $votes = $voter->votes;
+        foreach ($votes as $vote) {
+            $vote->delete();
+        }
+        $voter->delete();
+        return back();
+    }
+
     public function reset(Voter $voter)
     {
         $votes = $voter->votes;
@@ -26,16 +48,6 @@ class VotersController extends Controller
         $voter->has_voted = false;
         $voter->mac_address = 'N/A';
         $voter->save();
-        return back();
-    }
-
-     public function delete(Voter $voter)
-    {
-        $votes = $voter->votes;
-        foreach ($votes as $vote) {
-            $vote->delete();
-        }
-        $voter->delete();
         return back();
     }
 

@@ -46,6 +46,15 @@
                 <button class="btn btn-success" id="add_candidate" type="submit">Export Voters</button>
             </form>
         </div>
+            <br>
+            <div style="display: flex;">
+                <h1>Polling Status :</h1>
+                @if($pollingStatus === true) 
+                <button class="btn btn-success btn-lg" style="margin-left: 20px;padding-right: 50px;padding-left: 50px;">ACTIVE</button>
+                @else 
+                <button class="btn btn-danger btn-lg" style="margin-left: 20px;padding-right: 50px;padding-left: 50px;">NOT ACTIVE</button>
+                @endif
+            </div>
         </div>    
         
         @if ($errors->any())
@@ -414,6 +423,7 @@
                 <table class="table table-bordered table-striped">
                         <thead>
                           <tr>
+                            <th scope="col">Status</th>
                             <th scope="col">Start Time</th>
                             <th scope="col">End Time</th>
                             <th scope="col">Action</th>
@@ -429,6 +439,17 @@
                             @endif
                             @foreach ($polls as $key => $poll)
                                 <tr>
+                                    <!-- $status[] = 'Not Started'; -->
+                                    <!-- $status[] = 'Finished'; -->
+                                    <!-- $status[] = 'On Going'; -->
+                                    <!-- <td><button class="btn btn-success">On Going</button></td> -->
+                                    @if($status[$key] === 'On Going')
+                                        <td><button class="btn btn-success">On Going</button></td>
+                                    @elseif ($status[$key] === 'Finished')
+                                        <td><button class="btn btn-danger">Finished</button></td>
+                                    @else ()
+                                        <td><button class="btn btn-default">Not Started</button></td>
+                                    @endif
                                     <td>{{ date('M/d/Y h:i A', strtotime( $poll->start )) }}</td>
                                     <td>{{ date('M/d/Y h:i A', strtotime( $poll->end )) }}</td>
                                     <td>
